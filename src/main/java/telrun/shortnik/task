@@ -1,0 +1,87 @@
+/api/
+    /user/
+        1 create user
+            no_security
+            201 created || bad request
+            in UserRequestDto
+            out void   - просто ответ создан
+
+        2 deleteUser
+            ROLE_ADMIN
+            no content || bad request
+            in  String name
+            out void
+
+        3 getAllUsers
+            ROLE_ADMIN
+            OK || bad request
+            in  -----
+            out List<UserResponseDTO>
+
+    /link/
+        1 createLink
+            role_user
+            created || bad request
+            in String long url
+            out Response<String> short url
+
+        2 "/redirect/{url}"
+            NO_ROLE
+            found || bad request
+            in String url
+            out RedirectView(url)
+
+        3 deleteLink
+            ROLE_ADMIN
+            no content || bad request
+            in id
+            out void
+
+    /statistics/
+        1 get statistics by user_id
+            role_premium
+            found || bad request
+            in int user_id
+            out Statistics
+
+neapi -)))
+    shortnik /
+
+        no_security
+            1 main / sing in
+            2 register
+            3 forgot password
+
+        role_user
+            4 createLink
+
+        role_premium
+            5 get statistics
+
+Mandatory Requirements
+●	The service contains at least 2 endpoints: shorten URL and redirect
+●	The service follows 3 layers architecture, has a controller, service layer and a repository to store and retrieve data in the database
+●	The database can be either MySQL, Mongo or Redis (in-memory db)
+●	The REST endpoints should accept json and  return proper data with correct return codes
+●	The service should be implemented in Java/Spring Boot
+●	Endpoints in the controller and methods in the service layer must be covered by unit tests with Mockito in order to mock the next layer.
+
+    что планирую свыше:
+
+    -шаблоны \ регистрации \ входа \ получения ссылки
+    -кеширование частого запроса (mfu, lfu, может через @scheduled)
+    -чистка ссылок (@scheduled если устарела например на месяц (ответ 404))
+    -ограничение на кол-во ссылок на юзера
+
+    -интеграционные тесты с поднятием сервера
+    -что по логированию? что надо логировать вобще?
+    -документация javadoc
+    -jacoco для отчета по покрытию тестами
+    -fly way migration
+    -spring security
+
+    -платная роль (узнать на сколько сложны вобще алгоритмы оплаты) доступ к статистике, автопродление ссылок
+    от последнего захода например на месяц. Также больше ссылок x10
+
+    -регистрация и сброс пароля через имейл ???
+    -че за redis
