@@ -21,7 +21,11 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+//Помогите разобраться я застрял. Я пишу тест. Я запрашиваю MAIN шаблон. Для этого мой USER должен быть аутентифицированным
+//в тесте @BEFOREEACH я создраю USER, добавляю его в БД, и добавляю его в контекст аутентификации.
+// Позже в тесте void mustReturnMainPageForAuthenticatedUser() я запрашиваю шаблон MAIN от имени USER, который является
+// atuthenticated = TRUE.  Но вместо шаблона MAIN идет переадресация на REGISTER будто USER неаутентифицирован.
+// не могу понять почему так происходит
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class TemplateControllersTest {
 
@@ -47,15 +51,16 @@ class TemplateControllersTest {
 
     @Test //почему идет переадресация на ЛОГИН ведь юзер аутентифицирован
     void mustReturnMainPageForAuthenticatedUser() throws IOException {
+//        аутентификация прошла, user atuthenticated = TRUE
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        System.out.println(authentication);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
-
-        Connection.Response getRequestMainTemplate = connector.getRequestXml("");
-        System.out.println(getRequestMainTemplate.body());
+        Connection.Response getRequestMainTemplate = connector.getRequestXml(""); //запрос шаблона MAIN
+//        System.out.println(getRequestMainTemplate.body());
 
         assertEquals(200, getRequestMainTemplate.statusCode());
-        assertTrue(getRequestMainTemplate.body().contains("<title>shortnik_main</title>"));
+        assertTrue(getRequestMainTemplate.body().contains("<title>shortnik_main</title>"));  //должен вернуть MaIN шаблон
+        //но в ответе ШАБЛОН REGISTER
     }
 
     @Test //почему идет переадресация на ЛОГИН ведь юзер аутентифицрован
