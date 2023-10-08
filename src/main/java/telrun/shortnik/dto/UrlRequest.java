@@ -1,5 +1,6 @@
 package telrun.shortnik.dto;
 
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.URL;
 import telrun.shortnik.entity.User;
@@ -10,6 +11,7 @@ public class UrlRequest {
     @URL
     @Size(min = 30, max = 2048)
     private String longUrl;
+
     @Size(max = 255)
     private String description;
 

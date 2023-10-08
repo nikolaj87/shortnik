@@ -4,9 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import telrun.shortnik.dto.UrlRequest;
 import telrun.shortnik.dto.UserRequest;
@@ -14,7 +12,6 @@ import telrun.shortnik.entity.User;
 import telrun.shortnik.service.UrlService;
 import telrun.shortnik.service.UserService;
 
-import java.security.Principal;
 
 @Controller
 @RequestMapping
@@ -27,6 +24,20 @@ public class TemplateControllers {
     public TemplateControllers(UserService userService, UrlService urlService) {
         this.userService = userService;
         this.urlService = urlService;
+    }
+
+    @GetMapping("/")
+    public String mainPage() {
+        return "main";
+    }
+
+    @PostMapping("/main")
+    public String createUrl(@ModelAttribute @Valid UrlRequest urlRequest, @AuthenticationPrincipal User user) {
+        urlRequest.setUser(user);
+        ResponseEntity<String> shortUrl = urlService.createUrl(urlRequest);
+        urlRequest.setLongUrl("http://localhost:8080/" + shortUrl.getBody());
+        urlRequest.setDescription("");
+        return "main";
     }
 
     @GetMapping("/login")
@@ -48,19 +59,6 @@ public class TemplateControllers {
     public String createUser(@ModelAttribute UserRequest userRequest) {
         userService.createUser(userRequest);
         return "login";
-    }
-
-    @GetMapping("/")
-    public String mainPage() {
-        return "main";
-    }
-
-    @PostMapping("/main")
-    public String createUrl(@ModelAttribute @Valid UrlRequest urlRequest, @AuthenticationPrincipal User user) {
-        urlRequest.setUser(user);
-        ResponseEntity<String> url = urlService.createUrl(urlRequest);
-        urlRequest.setLongUrl("http://localhost:8080/" + url.getBody());
-        return "main";
     }
 
     @ModelAttribute("userRequest")

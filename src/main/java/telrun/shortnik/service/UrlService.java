@@ -9,8 +9,6 @@ public interface UrlService {
     @Transactional
     ResponseEntity<String> createUrl(UrlRequest urlRequest);
     @Transactional(readOnly = true)
-    ResponseEntity<String> getShortUrlByLongName(String url);
-    @Transactional(readOnly = true)
     RedirectView getLongUrlByShorName(String urlShort);
     @Transactional
     void deleteUrl(String shortUrl);

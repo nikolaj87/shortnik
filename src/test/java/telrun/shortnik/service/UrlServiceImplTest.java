@@ -6,19 +6,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UrlServiceImplTest {
 
-    @Test
-    void createUrl() {
-    }
-
-    @Test
-    void getShortUrlByLongName() {
-    }
-
-    @Test
-    void getLongUrlByShorName() {
-    }
-
-    @Test
-    void deleteUrl() {
-    }
+//    @Test
+//    void createUrl() {
+//    }
+//
+//    @Test
+//    void getShortUrlByLongName() {
+//    }
+//
+//    @Test
+//    void getLongUrlByShorName() {
+//    }
+//
+//    @Test
+//    void deleteUrl() {
+//    }
 }

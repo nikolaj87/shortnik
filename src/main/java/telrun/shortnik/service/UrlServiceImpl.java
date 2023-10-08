@@ -11,11 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 import telrun.shortnik.dto.UrlRequest;
 import telrun.shortnik.entity.Url;
-import telrun.shortnik.entity.User;
 import telrun.shortnik.generator.Generator;
 import telrun.shortnik.repository.UrlRepository;
 
-import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -44,16 +42,14 @@ public class UrlServiceImpl implements UrlService {
         return new ResponseEntity<>(urlForSave.getShortUrl(), HttpStatus.CREATED);
     }
 
-    @Override
-    public ResponseEntity<String> getShortUrlByLongName(String url) {
-        return null;
-    }
-
+    //транзакционность?
     @Override
     public RedirectView getLongUrlByShorName(String urlShort) {
         Optional<Url> foundOriginalUrl = urlRepository.findByShortUrl(urlShort);
         if (foundOriginalUrl.isPresent()) {
-            return new RedirectView(foundOriginalUrl.get().getLongUrl());
+            Url originalUrlForRedirect = foundOriginalUrl.get();
+            originalUrlForRedirect.getLastUse().setTime(System.currentTimeMillis());  // обновляю lastUse
+            return new RedirectView(originalUrlForRedirect.getLongUrl());
         }
         return new RedirectView("/");
     }

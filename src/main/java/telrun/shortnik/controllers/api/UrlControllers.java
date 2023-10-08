@@ -22,11 +22,6 @@ public class UrlControllers {
         return urlService.createUrl(urlRequest);
     }
 
-    @GetMapping("url/{originalUrl}")
-    public ResponseEntity<String> getShortLinkByLongName (@PathVariable String originalUrl) {
-        return urlService.getShortUrlByLongName(originalUrl);
-    }
-
     @GetMapping("/{urlShort}")
     public RedirectView redirectToLongUrl (@PathVariable String urlShort) {
         return urlService.getLongUrlByShorName(urlShort);

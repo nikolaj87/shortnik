@@ -19,7 +19,4 @@ public interface UserService extends UserDetailsService {
 
     @Transactional(readOnly = true)
     List<UserResponse> getAllUsers();
-
-    @Transactional(readOnly = true)
-    boolean authenticateUser(String name, String password, HttpSession session);
 }
