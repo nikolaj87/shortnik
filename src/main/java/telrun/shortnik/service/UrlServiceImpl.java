@@ -27,7 +27,6 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public void deleteUrl(String shortUrl) {
         cacheManager.deleteData(shortUrl);
-
     }
 }
 

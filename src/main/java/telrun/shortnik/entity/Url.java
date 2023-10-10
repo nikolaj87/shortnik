@@ -1,5 +1,6 @@
 package telrun.shortnik.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -21,6 +22,7 @@ public class Url {
     private Timestamp lastUse;
     @Column(name = "description")
     private String description;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

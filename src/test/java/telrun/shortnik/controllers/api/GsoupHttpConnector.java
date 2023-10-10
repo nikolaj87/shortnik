@@ -51,4 +51,13 @@ public class GsoupHttpConnector {
                 .method(Connection.Method.POST)
                 .execute();
     }
+
+    public Connection.Response patchRequestJson(String urlPart2) throws IOException {
+        return Jsoup.connect(urlPart1 + urlPart2)
+                .ignoreContentType(true)
+                .header("Content-Type", "application/json")
+                .method(Connection.Method.PATCH)
+                .requestBody("")
+                .execute();
+    }
 }

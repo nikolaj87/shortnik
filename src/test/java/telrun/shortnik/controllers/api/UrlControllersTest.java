@@ -41,7 +41,7 @@ class UrlControllersTest {
         urlRepository.deleteAll();
         userRepository.deleteAll();
         testUser = userRepository.save(new User(0L, "testUser", "testPassword", "testEmail",
-                new Timestamp(System.currentTimeMillis()), Set.of(new Role(3L, "USER", null))));
+                new Timestamp(System.currentTimeMillis()), Set.of(new Role(3L, "USER", null)), Set.of()));
         testUser.setRegisteredAt(null);
     }
 
@@ -74,6 +74,8 @@ class UrlControllersTest {
         String urlRequestJson = jsonCreator.createJson(new UrlRequest(testOriginalUrl, "some description", testUser));
         Connection.Response resultOfPostRequest = connector.postRequestJson(urlRequestJson, "url");
         String savedShortUrl = resultOfPostRequest.body();
+
+
 
         Connection.Response resultOfDeleteRequest = connector.deleteRequestJson("delete/" + savedShortUrl);
         List<Url> allUrl = urlRepository.findAll();

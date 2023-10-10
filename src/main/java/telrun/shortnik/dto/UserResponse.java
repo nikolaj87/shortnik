@@ -2,6 +2,7 @@ package telrun.shortnik.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import telrun.shortnik.entity.Role;
+import telrun.shortnik.entity.Url;
 
 import java.sql.Timestamp;
 import java.util.Set;
@@ -13,13 +14,15 @@ public class UserResponse {
     private String email;
     private Timestamp registeredAt;
     private Set<Role> roles;
+    private Set<Url> urls;
 
-    public UserResponse(Long id, String name, String email, Timestamp registeredAt, Set<Role> roles) {
+    public UserResponse(Long id, String name, String email, Timestamp registeredAt, Set<Role> roles, Set<Url> urls) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.registeredAt = registeredAt;
         this.roles = roles;
+        this.urls = urls;
     }
 
     public UserResponse() {
@@ -65,5 +68,11 @@ public class UserResponse {
         this.roles = roles;
     }
 
+    public Set<Url> getUrls() {
+        return urls;
+    }
 
+    public void setUrls(Set<Url> urls) {
+        this.urls = urls;
+    }
 }

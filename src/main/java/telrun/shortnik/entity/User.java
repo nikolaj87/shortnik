@@ -31,6 +31,8 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<Url> urls;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -69,13 +71,14 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String name, String password, String email, Timestamp registeredAt, Set<Role> roles) {
+    public User(Long id, String name, String password, String email, Timestamp registeredAt, Set<Role> roles, Set<Url> urls) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.registeredAt = registeredAt;
         this.roles = roles;
+        this.urls = urls;
     }
 
     public Long getId() {
@@ -120,6 +123,14 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Url> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(Set<Url> urls) {
+        this.urls = urls;
     }
 
     @Override

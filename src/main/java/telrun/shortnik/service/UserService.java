@@ -19,4 +19,6 @@ public interface UserService extends UserDetailsService {
 
     @Transactional(readOnly = true)
     List<UserResponse> getAllUsers();
+    @Transactional
+    void addPremiumRole(Long userId);
 }

@@ -38,7 +38,7 @@ class TemplateControllersTest {
     public void initUserAuthentication() {
         userRepository.deleteAll();
         UserDetails testUser = userRepository.save(new User(0L, "testUser", "testPassword", "testEmail",
-                new Timestamp(System.currentTimeMillis()), Set.of(new Role(3L, "USER", null))));
+                new Timestamp(System.currentTimeMillis()), Set.of(new Role(3L, "USER", null)), Set.of()));
         Authentication authentication = new UsernamePasswordAuthenticationToken(testUser.getUsername(),
                 testUser.getPassword(), testUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);

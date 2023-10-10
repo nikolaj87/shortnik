@@ -12,11 +12,14 @@ import org.springframework.http.HttpStatus;
 import telrun.shortnik.dto.UserRequest;
 import telrun.shortnik.dto.UserResponse;
 import telrun.shortnik.entity.Role;
+import telrun.shortnik.entity.User;
 import telrun.shortnik.repository.UserRepository;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,5 +73,19 @@ class UserControllersTest {
 
         assertEquals(HttpStatus.NO_CONTENT.value(), resultDelete.statusCode());
         assertEquals(0, allUsers.size());
+    }
+
+    @Test
+    void whenAddPremiumRole_thanUserHasIt() throws IOException {
+        User savedUser = userRepository.save(new User(0L, "testUser", "testPassword", "testEmail",
+                new Timestamp(System.currentTimeMillis()), Set.of(new Role(3L, "USER", null)), Set.of()));
+
+        Connection.Response resultOfPatchRequest = connector.getRequestJson( "user/" + savedUser.getId());
+        Connection.Response resultOfGetRequest = connector.getRequestJson("user");
+        List<UserResponse> allUsersFromDatabase = jsonCreator.convertJsonToObject(resultOfGetRequest.body(),
+                new TypeToken<List<UserResponse>>() {}.getType());
+
+        assertEquals(1, allUsersFromDatabase.size());
+        assertTrue(allUsersFromDatabase.get(0).getRoles().contains(new Role(2L, "PREMIUM", null)));
     }
 }

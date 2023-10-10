@@ -1,17 +1,10 @@
 package telrun.shortnik.service;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.view.RedirectView;
+import telrun.shortnik.convertors.Convertors;
 import telrun.shortnik.dto.UserRequest;
 import telrun.shortnik.dto.UserResponse;
 import telrun.shortnik.entity.Role;
@@ -28,21 +21,22 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final Role defaultRole = new Role(3L, "USER", null);
+    private final Convertors convertors;
+    private static final Role DEFAULT_ROLE = new Role(3L, "USER", null);
 
-    @Autowired
-    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        @Autowired
+    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, Convertors convertors) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.convertors = convertors;
     }
 
     @Override
     public UserResponse createUser(UserRequest userRequest) {
         User userForSave = new User(0L, userRequest.getName(), passwordEncoder.encode(userRequest.getPassword()),
-                userRequest.getEmail(), new Timestamp(System.currentTimeMillis()), Set.of(defaultRole));
+                userRequest.getEmail(), new Timestamp(System.currentTimeMillis()), Set.of(DEFAULT_ROLE), Set.of());
         userForSave = userRepository.save(userForSave);
-        return new UserResponse(userForSave.getId(), userForSave.getName(), userForSave.getEmail(),
-                userForSave.getRegisteredAt(), userForSave.getRoles());
+        return convertors.entityToUserResponse(userForSave);
     }
 
     @Override
@@ -53,8 +47,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAllUsers() {
         List<User> allUsers = userRepository.findAll();
-        return allUsers.stream().map(user -> new UserResponse(user.getId(), user.getName(),
-                user.getEmail(), user.getRegisteredAt(), user.getRoles())).toList();
+        return allUsers.stream().map(convertors::entityToUserResponse).toList();
+    }
+
+    @Override
+    public void addPremiumRole(Long userId) {
+        userRepository.updateRoles(userId);
     }
 
     @Override

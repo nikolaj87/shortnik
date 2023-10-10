@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import telrun.shortnik.dto.UserRequest;
 import telrun.shortnik.dto.UserResponse;
-import telrun.shortnik.entity.User;
 import telrun.shortnik.service.UserService;
 
 import java.util.List;
@@ -22,17 +21,25 @@ public class UserControllers {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public UserResponse createUser (@RequestBody UserRequest userRequest) {
+    public UserResponse createUser(@RequestBody UserRequest userRequest) {
         return userService.createUser(userRequest);
     }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{name}")
-    public void deleteUser (@PathVariable String name) {
+    public void deleteUser(@PathVariable String name) {
         userService.deleteUser(name);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<UserResponse> getAllUsers () {
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{userId}")
+    public void addRolePremium(@PathVariable Long userId) {
+        userService.addPremiumRole(userId);
     }
 }
