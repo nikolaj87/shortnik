@@ -13,9 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     void deleteUserByName(String name);
 
-    //    @Query(value = "UPDATE User u SET u.roles = :newRoles WHERE u.id = :userId", nativeQuery = true)
     @Modifying
     @Query(value = "INSERT INTO role_user (user_id, role_id) VALUES (:userId, 2)", nativeQuery = true)
-    void updateRoles(@Param("userId") Long userId);
-
+    void addPremiumRole(@Param("userId") Long userId);
 }

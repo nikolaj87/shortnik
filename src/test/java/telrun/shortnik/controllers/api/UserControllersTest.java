@@ -17,7 +17,6 @@ import telrun.shortnik.repository.UserRepository;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -80,7 +79,7 @@ class UserControllersTest {
         User savedUser = userRepository.save(new User(0L, "testUser", "testPassword", "testEmail",
                 new Timestamp(System.currentTimeMillis()), Set.of(new Role(3L, "USER", null)), Set.of()));
 
-        Connection.Response resultOfPatchRequest = connector.getRequestJson( "user/" + savedUser.getId());
+        Connection.Response resultOfPatchRequest = connector.postRequestJson("", "user/" + savedUser.getId());
         Connection.Response resultOfGetRequest = connector.getRequestJson("user");
         List<UserResponse> allUsersFromDatabase = jsonCreator.convertJsonToObject(resultOfGetRequest.body(),
                 new TypeToken<List<UserResponse>>() {}.getType());

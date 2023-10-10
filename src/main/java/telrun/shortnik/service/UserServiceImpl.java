@@ -22,9 +22,10 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final Convertors convertors;
-    private static final Role DEFAULT_ROLE = new Role(3L, "USER", null);
+    private static final Role USER_ROLE = new Role(3L, "USER", null);
+    private static final Role PREMIUM_ROLE = new Role(2L, "PREMIUM", null);
 
-        @Autowired
+    @Autowired
     public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, Convertors convertors) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse createUser(UserRequest userRequest) {
         User userForSave = new User(0L, userRequest.getName(), passwordEncoder.encode(userRequest.getPassword()),
-                userRequest.getEmail(), new Timestamp(System.currentTimeMillis()), Set.of(DEFAULT_ROLE), Set.of());
+                userRequest.getEmail(), new Timestamp(System.currentTimeMillis()), Set.of(USER_ROLE), Set.of());
         userForSave = userRepository.save(userForSave);
         return convertors.entityToUserResponse(userForSave);
     }
@@ -52,7 +53,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addPremiumRole(Long userId) {
-        userRepository.updateRoles(userId);
+//        userRepository.addPremiumRole(userId);
+        Optional<User> entityUserOptional = userRepository.findById(userId);
+        if (entityUserOptional.isPresent()) {
+            User entityUser = entityUserOptional.get();
+            entityUser.getRoles().add(PREMIUM_ROLE);
+            userRepository.save(entityUser);
+        }
     }
 
     @Override

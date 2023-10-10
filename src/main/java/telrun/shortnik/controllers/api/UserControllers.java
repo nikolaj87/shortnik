@@ -38,7 +38,7 @@ public class UserControllers {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{userId}")
+    @PostMapping("/{userId}")
     public void addRolePremium(@PathVariable Long userId) {
         userService.addPremiumRole(userId);
     }
