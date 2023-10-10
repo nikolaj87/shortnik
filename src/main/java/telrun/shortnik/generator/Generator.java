@@ -7,8 +7,8 @@ import java.util.Random;
 @Component
 public class Generator {
     //57 млрд комб
-    private final String ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    private final int LINK_SIZE = 6;
+    private static final String ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final int LINK_SIZE = 6;
     private final Random random = new Random();
     private final StringBuilder shortLink = new StringBuilder();
     public String generate() {

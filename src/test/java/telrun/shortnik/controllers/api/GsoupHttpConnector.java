@@ -34,17 +34,19 @@ public class GsoupHttpConnector {
         return Jsoup.connect(urlPart1 + urlPart2)
                 .ignoreContentType(true)
                 .header("Content-Type", "application/json")
+//                .header("Authorization", "Basic " + java.util.Base64.getEncoder().encodeToString(("testUser" + ":" + "testPassword").getBytes()))
                 .method(Connection.Method.POST)
                 .requestBody(body)
                 .execute();
     }
 
-    public Connection.Response getRequestXml(String urlPart2) throws IOException {
+    public Connection.Response getRequestHtml(String urlPart2) throws IOException {
         return Jsoup.connect(urlPart1 + urlPart2)
                 .method(Connection.Method.GET)
                 .execute();
     }
-    public Connection.Response postRequestXml(String urlPart2) throws IOException {
+
+    public Connection.Response postRequestHtml(String urlPart2) throws IOException {
         return Jsoup.connect(urlPart1 + urlPart2)
                 .method(Connection.Method.POST)
                 .execute();

@@ -22,8 +22,8 @@ public class UserControllers {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void createUser (@RequestBody UserRequest userRequest) {
-        userService.createUser(userRequest);
+    public UserResponse createUser (@RequestBody UserRequest userRequest) {
+        return userService.createUser(userRequest);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{name}")

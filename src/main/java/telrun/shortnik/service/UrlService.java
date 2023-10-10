@@ -1,15 +1,13 @@
 package telrun.shortnik.service;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.view.RedirectView;
 import telrun.shortnik.dto.UrlRequest;
 
 public interface UrlService {
     @Transactional
-    ResponseEntity<String> createUrl(UrlRequest urlRequest);
+    String createUrl(UrlRequest urlRequest);
     @Transactional(readOnly = true)
-    RedirectView getLongUrlByShorName(String urlShort);
+    String getLongUrlByShortName(String urlShort);
     @Transactional
     void deleteUrl(String shortUrl);
 }

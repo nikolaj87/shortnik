@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
 
     @Transactional
-    void createUser(UserRequest userRequest);
+    UserResponse createUser(UserRequest userRequest);
 
     @Transactional
     void deleteUser(String name);

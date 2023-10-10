@@ -1,6 +1,7 @@
 package telrun.shortnik.controllers;
 
 import org.jsoup.Connection;
+import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import telrun.shortnik.controllers.api.GsoupHttpConnector;
 import telrun.shortnik.entity.Role;
 import telrun.shortnik.entity.User;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //Помогите разобраться я застрял. Я пишу тест. Я запрашиваю MAIN шаблон. Для этого мой USER должен быть аутентифицированным
 //в тесте @BEFOREEACH я создраю USER, добавляю его в БД, и добавляю его в контекст аутентификации.
 // Позже в тесте void mustReturnMainPageForAuthenticatedUser() я запрашиваю шаблон MAIN от имени USER, который является
-// atuthenticated = TRUE.  Но вместо шаблона MAIN идет переадресация на REGISTER будто USER неаутентифицирован.
+// atuthenticated = TRUE.  Но вместо шаблона MAIN идет переадресация на LOGIN
 // не могу понять почему так происходит
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class TemplateControllersTest {
@@ -55,12 +55,12 @@ class TemplateControllersTest {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        System.out.println(authentication);
 
-        Connection.Response getRequestMainTemplate = connector.getRequestXml(""); //запрос шаблона MAIN
-//        System.out.println(getRequestMainTemplate.body());
+        Connection.Response getRequestMainTemplate = connector.getRequestHtml(""); //запрос шаблона MAIN
+        System.out.println(getRequestMainTemplate.body());
 
         assertEquals(200, getRequestMainTemplate.statusCode());
         assertTrue(getRequestMainTemplate.body().contains("<title>shortnik_main</title>"));  //должен вернуть MaIN шаблон
-        //но в ответе ШАБЛОН REGISTER
+        //но в ответе ШАБЛОН LOGIN
     }
 
     @Test //почему идет переадресация на ЛОГИН ведь юзер аутентифицрован
@@ -68,7 +68,7 @@ class TemplateControllersTest {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(authentication);
 
-        Connection.Response postRequestMainTemplate = connector.postRequestXml("main");
+        Connection.Response postRequestMainTemplate = connector.postRequestHtml("main");
 
         System.out.println(postRequestMainTemplate.body());
         assertEquals(200, postRequestMainTemplate.statusCode());
@@ -77,23 +77,32 @@ class TemplateControllersTest {
 
     @Test
     void mustReturnLoginPage() throws IOException {
-        Connection.Response getRequestLoginTemplate = connector.getRequestXml("login");
 
-        System.out.println(getRequestLoginTemplate.body());
-
+        Connection.Response getRequestLoginTemplate = connector.getRequestHtml("login");
 
         assertEquals(200, getRequestLoginTemplate.statusCode());
         assertTrue(getRequestLoginTemplate.body().contains("<title>shortnik_login</title>"));
     }
 
-    @Test
-    void loginSubmit() {
+    @Test //как проверить работу формы а не только возврат нужного шаблона
+    void loginSubmit() throws IOException {
+
+        Connection.Response postRequestLoginTemplate = connector.postRequestHtml("login");
+
+        Document parse = postRequestLoginTemplate.parse();
+        System.out.println(parse);
+//        System.out.println("--------------");
+//        System.out.println(postRequestLoginTemplate.body());
+
+
+//        assertEquals(200, postRequestLoginTemplate.statusCode());
+//        assertTrue(postRequestLoginTemplate.body().contains("<title>shortnik_main</title>"));
     }
 
     @Test
     void mustReturnRegisterPage() throws IOException {
 
-        Connection.Response requestRegisterPage = connector.getRequestXml("register");
+        Connection.Response requestRegisterPage = connector.getRequestHtml("register");
 
         assertEquals(200, requestRegisterPage.statusCode());
         assertTrue(requestRegisterPage.body().contains("<title>shortnik_registration</title>"));
@@ -101,13 +110,5 @@ class TemplateControllersTest {
 
     @Test
     void createUser() {
-    }
-
-    @Test
-    void addUserRequestToModel() {
-    }
-
-    @Test
-    void addUrlRequestToModel() {
     }
 }

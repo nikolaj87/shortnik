@@ -27,15 +27,17 @@ public class SecurityConfig {
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/main").authenticated()
+//                                .requestMatchers("/url").authenticated()
                                 .requestMatchers("/").authenticated()
                                 .anyRequest().permitAll())
                         .csrf(csrf -> csrf.disable())
 //                        .httpBasic(Customizer.withDefaults())
                         .formLogin(login -> login
                                 .loginPage("/login")
-                                .successHandler((request, response, authentication) -> {
-                                    response.sendRedirect("/main");
-                                }))
+                                .successForwardUrl("/main"))
+//                                .successHandler((request, response, authentication) -> {
+//                                    response.sendRedirect("/main");
+//                                }))
                         .build();
     }
 //                .formLogin(withDefaults()) // Настраиваем страницу входа

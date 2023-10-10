@@ -4,7 +4,7 @@
             no_security
             201 created || bad request
             in UserRequestDto
-            out void   - просто ответ создан
+            out UserResponse
 
         2 deleteUser
             ROLE_ADMIN
@@ -12,7 +12,7 @@
             in  String name
             out void
 
-        3 getAllUsers
+        3 getAllUsers           - добавить постраничный вывод
             ROLE_ADMIN
             OK || bad request
             in  -----
@@ -23,7 +23,7 @@
             role_user
             created || bad request
             in String long url
-            out Response<String> short url
+            out ResponseУтешен<String> shortUrl
 
         2 "/redirect/{url}"
             NO_ROLE
@@ -37,7 +37,7 @@
             in id
             out void
 
-    /statistics/
+    /statistics/                         - наверно этого не будет
         1 get statistics by user_id
             role_premium
             found || bad request
@@ -54,9 +54,12 @@ neapi -)))
 
         role_user
             4 createLink
+                - 20 ссылок
+                - жизнь ссылки 7 дней
 
         role_premium
-            5 get statistics
+                - 100 ссылок
+                - жизнь ссылки 30 дней
 
 Mandatory Requirements
 ●	The service contains at least 2 endpoints: shorten URL and redirect
@@ -69,7 +72,7 @@ Mandatory Requirements
     что планирую свыше:
 
     -шаблоны \ регистрации \ входа \ получения ссылки
-    -кеширование частого запроса (mfu, lfu, может через @scheduled)
+    -кеширование частого запроса ()
     -чистка ссылок (@scheduled если устарела например на месяц (ответ 404))
     -ограничение на кол-во ссылок на юзера
 
@@ -78,10 +81,10 @@ Mandatory Requirements
     -документация javadoc
     -jacoco для отчета по покрытию тестами
     -fly way migration
-    -spring security
+    -spring security. USER ADMIN PREMIUM
 
     -платная роль (узнать на сколько сложны вобще алгоритмы оплаты) доступ к статистике, автопродление ссылок
     от последнего захода например на месяц. Также больше ссылок x10
 
-    -регистрация и сброс пароля через имейл ???
-    -че за redis
+---добавить в энтити класс поле ссылки
+---валидация форм ---errors

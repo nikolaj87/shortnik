@@ -9,15 +9,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import telrun.shortnik.dto.UrlRequest;
 import telrun.shortnik.entity.Role;
+import telrun.shortnik.entity.Url;
 import telrun.shortnik.entity.User;
 import telrun.shortnik.repository.UrlRepository;
 import telrun.shortnik.repository.UserRepository;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class UrlControllersTest {
@@ -48,14 +51,14 @@ class UrlControllersTest {
         userRepository.deleteAll();
     }
 
-    @Test
-    void whenCreateUrlInDatabase_canGetItByOriginalName() throws IOException {
-        String urlRequestJson = jsonCreator.createJson(new UrlRequest(testOriginalUrl, "some description", testUser));
-
-        Connection.Response resultOfPostRequest = connector.postRequestJson(urlRequestJson, "url");
-
-        assertEquals(201, resultOfPostRequest.statusCode());
-    }
+//    @Test
+//    void whenCreateUrlInDatabase_canGetItByOriginalName() throws IOException {
+//        String urlRequestJson = jsonCreator.createJson(new UrlRequest(testOriginalUrl, "some description", testUser));
+//
+//        Connection.Response resultOfPostRequest = connector.postRequestJson(urlRequestJson, "url");
+//
+//        assertEquals(201, resultOfPostRequest.statusCode());
+//    }
     @Test
     void mustCreateShortUrl_andRedirectToOriginalAfterRequest() throws IOException {
         String urlRequestJson = jsonCreator.createJson(new UrlRequest(testOriginalUrl, "some description", testUser));
@@ -73,7 +76,9 @@ class UrlControllersTest {
         String savedShortUrl = resultOfPostRequest.body();
 
         Connection.Response resultOfDeleteRequest = connector.deleteRequestJson("delete/" + savedShortUrl);
+        List<Url> allUrl = urlRepository.findAll();
 
         assertEquals(HttpStatus.NO_CONTENT.value(), resultOfDeleteRequest.statusCode());
+        assertTrue(allUrl.isEmpty());
     }
 }

@@ -35,12 +35,14 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
-    //нолевой айдишник???
+
     @Override
-    public void createUser(UserRequest userRequest) {
+    public UserResponse createUser(UserRequest userRequest) {
         User userForSave = new User(0L, userRequest.getName(), passwordEncoder.encode(userRequest.getPassword()),
                 userRequest.getEmail(), new Timestamp(System.currentTimeMillis()), Set.of(defaultRole));
-        userRepository.save(userForSave);
+        userForSave = userRepository.save(userForSave);
+        return new UserResponse(userForSave.getId(), userForSave.getName(), userForSave.getEmail(),
+                userForSave.getRegisteredAt(), userForSave.getRoles());
     }
 
     @Override
@@ -55,7 +57,6 @@ public class UserServiceImpl implements UserService {
                 user.getEmail(), user.getRegisteredAt(), user.getRoles())).toList();
     }
 
-//    @Transactional(readOnly = true)  //???? надо ли ведь в интерфейсе нету аннотации
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userByUsername = userRepository.findUserByName(username);

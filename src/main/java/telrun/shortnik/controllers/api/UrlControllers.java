@@ -19,12 +19,14 @@ public class UrlControllers {
 
     @PostMapping("/url")
     public ResponseEntity<String> createUrl (@RequestBody UrlRequest urlRequest) {
-        return urlService.createUrl(urlRequest);
+        String shortUrl = urlService.createUrl(urlRequest);
+        return new ResponseEntity<>(shortUrl, HttpStatus.CREATED);
     }
 
     @GetMapping("/{urlShort}")
     public RedirectView redirectToLongUrl (@PathVariable String urlShort) {
-        return urlService.getLongUrlByShorName(urlShort);
+        String originalUrl = urlService.getLongUrlByShortName(urlShort);
+        return new RedirectView(originalUrl);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

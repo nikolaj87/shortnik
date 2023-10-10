@@ -34,8 +34,8 @@ public class TemplateControllers {
     @PostMapping("/main")
     public String createUrl(@ModelAttribute @Valid UrlRequest urlRequest, @AuthenticationPrincipal User user) {
         urlRequest.setUser(user);
-        ResponseEntity<String> shortUrl = urlService.createUrl(urlRequest);
-        urlRequest.setLongUrl("http://localhost:8080/" + shortUrl.getBody());
+        String shortUrl = urlService.createUrl(urlRequest);
+        urlRequest.setLongUrl("http://localhost:8080/" + shortUrl);
         urlRequest.setDescription("");
         return "main";
     }
@@ -47,7 +47,7 @@ public class TemplateControllers {
 
     @PostMapping("/login")
     public String loginSubmit() {
-        return "/main";
+        return "main";
     }
 
     @GetMapping("/register")
