@@ -1,6 +1,8 @@
 package telrun.shortnik.controllers.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import telrun.shortnik.dto.UserRequest;
@@ -34,8 +36,22 @@ public class UserControllers {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<UserResponse> getAllUsers() {
+        PageRequest page = PageRequest.of(0, 100);
+
         return userService.getAllUsers();
     }
+
+//    @GetMapping(params = "recent")
+//    public Iterable<Taco> recentTacos() {
+//        PageRequest page = PageRequest.of(0, 2, Sort.by("createdAt").descending());
+//        return tacoRepo.findAll(page).getContent();
+//    }
+//
+//    @GetMapping()
+//    public Iterable<Taco> getAllTacos() {
+//        PageRequest page = PageRequest.of(0, 3, Sort.by("createdAt").descending());
+//        return tacoRepo.findAll(page).getContent();
+//    }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{userId}")

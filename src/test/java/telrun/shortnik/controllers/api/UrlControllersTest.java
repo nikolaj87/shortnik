@@ -51,14 +51,6 @@ class UrlControllersTest {
         userRepository.deleteAll();
     }
 
-//    @Test
-//    void whenCreateUrlInDatabase_canGetItByOriginalName() throws IOException {
-//        String urlRequestJson = jsonCreator.createJson(new UrlRequest(testOriginalUrl, "some description", testUser));
-//
-//        Connection.Response resultOfPostRequest = connector.postRequestJson(urlRequestJson, "url");
-//
-//        assertEquals(201, resultOfPostRequest.statusCode());
-//    }
     @Test
     void mustCreateShortUrl_andRedirectToOriginalAfterRequest() throws IOException {
         String urlRequestJson = jsonCreator.createJson(new UrlRequest(testOriginalUrl, "some description", testUser));
@@ -74,8 +66,6 @@ class UrlControllersTest {
         String urlRequestJson = jsonCreator.createJson(new UrlRequest(testOriginalUrl, "some description", testUser));
         Connection.Response resultOfPostRequest = connector.postRequestJson(urlRequestJson, "url");
         String savedShortUrl = resultOfPostRequest.body();
-
-
 
         Connection.Response resultOfDeleteRequest = connector.deleteRequestJson("delete/" + savedShortUrl);
         List<Url> allUrl = urlRepository.findAll();

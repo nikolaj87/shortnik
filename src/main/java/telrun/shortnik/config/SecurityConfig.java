@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -16,13 +18,12 @@ public class SecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         return
                 http
-//                        .sessionManagement(x -> x
-//                                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-//                                .invalidSessionUrl("/login")
-//                                .sessionFixation().migrateSession()
-//                                .maximumSessions(1)
-//                                .maxSessionsPreventsLogin(false)
-//                        )
+                        .sessionManagement(x -> x
+                                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                                .invalidSessionUrl("/login")
+                                .sessionFixation().migrateSession()
+                                .maximumSessions(2)
+                                .maxSessionsPreventsLogin(false))
                         .authorizeHttpRequests(x -> x
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
@@ -30,7 +31,7 @@ public class SecurityConfig {
 //                                .requestMatchers("/url").authenticated()
                                 .requestMatchers("/").authenticated()
                                 .anyRequest().permitAll())
-                        .csrf(csrf -> csrf.disable())
+                        .csrf(AbstractHttpConfigurer::disable)
 //                        .httpBasic(Customizer.withDefaults())
                         .formLogin(login -> login
                                 .loginPage("/login")
