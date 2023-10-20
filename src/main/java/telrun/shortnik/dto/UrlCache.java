@@ -1,10 +1,5 @@
 package telrun.shortnik.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -12,13 +7,11 @@ public class UrlCache {
     private long id;
     private String longUrl;
     private Timestamp lastUse;
-    private Integer numberUsage;
 
-    public UrlCache(long id, String longUrl, Timestamp lastUse, Integer numberUsage) {
+    public UrlCache(long id, String longUrl, Timestamp lastUse) {
         this.id = id;
         this.longUrl = longUrl;
         this.lastUse = lastUse;
-        this.numberUsage = numberUsage;
     }
 
     public UrlCache() {
@@ -48,14 +41,6 @@ public class UrlCache {
         this.lastUse = lastUse;
     }
 
-    public Integer getNumberUsage() {
-        return numberUsage;
-    }
-
-    public void setNumberUsage(Integer numberUsage) {
-        this.numberUsage = numberUsage;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,7 +60,6 @@ public class UrlCache {
                 "id=" + id +
                 ", longUrl='" + longUrl + '\'' +
                 ", lastUse=" + lastUse +
-                ", numberUsage=" + numberUsage +
                 '}';
     }
 }

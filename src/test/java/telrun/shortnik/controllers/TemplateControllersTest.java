@@ -1,106 +1,83 @@
 package telrun.shortnik.controllers;
 
 import org.jsoup.Connection;
-import org.jsoup.nodes.Document;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.HttpStatus;
 import telrun.shortnik.controllers.api.GsoupHttpConnector;
-import telrun.shortnik.entity.Role;
+import telrun.shortnik.dto.UrlRequest;
+import telrun.shortnik.dto.UrlResponse;
+import telrun.shortnik.dto.UserRequest;
+import telrun.shortnik.entity.Url;
 import telrun.shortnik.entity.User;
+import telrun.shortnik.repository.UrlRepository;
 import telrun.shortnik.repository.UserRepository;
+import telrun.shortnik.service.UrlService;
+import telrun.shortnik.service.UserService;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Set;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-//Помогите разобраться я застрял. Я пишу тест. Я запрашиваю MAIN шаблон. Для этого мой USER должен быть аутентифицированным
-//в тесте @BEFOREEACH я создраю USER, добавляю его в БД, и добавляю его в контекст аутентификации.
-// Позже в тесте void mustReturnMainPageForAuthenticatedUser() я запрашиваю шаблон MAIN от имени USER, который является
-// atuthenticated = TRUE.  Но вместо шаблона MAIN идет переадресация на LOGIN
-// не могу понять почему так происходит
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class TemplateControllersTest {
 
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private UrlRepository urlRepository;
+    @Autowired
+    private UrlService urlService;
+    @Autowired
+    private UserService userService;
+    @Autowired
     private GsoupHttpConnector connector;
 
-    @BeforeEach
-    public void initUserAuthentication() {
-        userRepository.deleteAll();
-        UserDetails testUser = userRepository.save(new User(0L, "testUser", "testPassword", "testEmail",
-                new Timestamp(System.currentTimeMillis()), Set.of(new Role(3L, "USER", null)), Set.of()));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(testUser.getUsername(),
-                testUser.getPassword(), testUser.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    @Test
+    void mustNotReturnMainPage_noAuth() throws IOException {
+
+        Connection.Response tryRequestMainTemplate = connector.getRequestHtml("");
+
+        assertEquals(401, tryRequestMainTemplate.statusCode());
+        assertTrue(tryRequestMainTemplate.body().contains("<title>shortnik_login</title>"));
+    }
+    @Test
+    void mustReturnMainPage_authUser() throws IOException {
+        Connection.Response userIsLoggingApp = connector.postRequestHtml("user", "user", "login");
+
+        Connection.Response requestMainTemplate = connector.getRequestHtml("", userIsLoggingApp.cookies());
+
+        assertEquals(200, requestMainTemplate.statusCode());
+        assertTrue(requestMainTemplate.body().contains("<title>shortnik_main</title>"));
     }
 
-    @AfterEach
-    public void cleanDatabase() {
-        userRepository.deleteAll();
-    }
+//    @Test надо отвязать 0й элемент
+    void mustCreateShortUrlForAuthenticatedUser_andChangeUrlRequestFromModel() throws IOException {
+        String testOriginalUrl = "https://www.booking.com/index.ru.html?label=gen173nr-1BCAEoggI46AdIM1gEaLYBiAEBmAEhuAEXyAEM2AEB6AEBiAIBqAIDuAKC1bSpBsACAdICJDI4OTdiZDcxLTQzYjktNDg1Ni1iMWE4LTg3ZWNkYzBhODNjZNgCBeACAQ&sid=ce60ff64916cc08b4b5fb2b3f80fc344&keep_landing=1&sb_price_type=total&";
+        UrlRequest urlRequest = new UrlRequest(testOriginalUrl, "some text", null);
+        Connection.Response userIsLogging = connector.postRequestHtml("user", "user", "login");
 
-    @Test //почему идет переадресация на ЛОГИН ведь юзер аутентифицирован
-    void mustReturnMainPageForAuthenticatedUser() throws IOException {
-//        аутентификация прошла, user atuthenticated = TRUE
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        System.out.println(authentication);
+        Connection.Response mustCreateUrlInDatabase = connector.postRequestHtml(urlRequest, userIsLogging.cookies(), "main");
+        Url createResultUrlFromDatabase = urlRepository.findAll().get(0);
+        urlService.deleteUrl(createResultUrlFromDatabase.getShortUrl());
 
-        Connection.Response getRequestMainTemplate = connector.getRequestHtml(""); //запрос шаблона MAIN
-        System.out.println(getRequestMainTemplate.body());
-
-        assertEquals(200, getRequestMainTemplate.statusCode());
-        assertTrue(getRequestMainTemplate.body().contains("<title>shortnik_main</title>"));  //должен вернуть MaIN шаблон
-        //но в ответе ШАБЛОН LOGIN
-    }
-
-    @Test //почему идет переадресация на ЛОГИН ведь юзер аутентифицрован
-    void mustCutOriginalUrlAtTemplate() throws IOException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
-
-        Connection.Response postRequestMainTemplate = connector.postRequestHtml("main");
-
-        System.out.println(postRequestMainTemplate.body());
-        assertEquals(200, postRequestMainTemplate.statusCode());
-
+        assertEquals(201, mustCreateUrlInDatabase.statusCode());
+        assertEquals(testOriginalUrl, createResultUrlFromDatabase.getLongUrl());
+        assertTrue(mustCreateUrlInDatabase.body().contains("required value=\"http://localhost:"));
     }
 
     @Test
-    void mustReturnLoginPage() throws IOException {
+    void mustReturnLoginPage_noAuth() throws IOException {
 
         Connection.Response getRequestLoginTemplate = connector.getRequestHtml("login");
 
-        assertEquals(200, getRequestLoginTemplate.statusCode());
         assertTrue(getRequestLoginTemplate.body().contains("<title>shortnik_login</title>"));
     }
 
-    @Test //как проверить работу формы а не только возврат нужного шаблона
-    void loginSubmit() throws IOException {
-
-        Connection.Response postRequestLoginTemplate = connector.postRequestHtml("login");
-
-        Document parse = postRequestLoginTemplate.parse();
-        System.out.println(parse);
-//        System.out.println("--------------");
-//        System.out.println(postRequestLoginTemplate.body());
-
-
-//        assertEquals(200, postRequestLoginTemplate.statusCode());
-//        assertTrue(postRequestLoginTemplate.body().contains("<title>shortnik_main</title>"));
-    }
-
     @Test
-    void mustReturnRegisterPage() throws IOException {
+    void mustReturnRegisterPage_noAuth() throws IOException {
 
         Connection.Response requestRegisterPage = connector.getRequestHtml("register");
 
@@ -109,6 +86,29 @@ class TemplateControllersTest {
     }
 
     @Test
-    void createUser() {
+    void mustCreateNewUserAndReturnLoginPage() throws IOException {
+        UserRequest userRequest = new UserRequest("someName", "somePassword123/", "some@email");
+
+        Connection.Response postRequestRegisterPage = connector.postRequestHtml(userRequest, "register");
+        Optional<User> resultUserFromDatabase = userRepository.findUserByName("someName");
+        userService.deleteUser(userRequest.getName());
+
+        assertTrue(resultUserFromDatabase.isPresent());
+        assertTrue(postRequestRegisterPage.body().contains("<title>shortnik_login</title>"));
+    }
+
+    @Test
+    void mustRedirectToOriginalUrl_noAuth() throws IOException {
+        String testOriginalUrl = "https://www.booking.com/index.ru.html?label=gen173nr-1BCAEoggI46AdIM1gEaLYBiAEBmAEhuAEXyAEM2AEB6AEBiAIBqAIDuAKC1bSpBsACAdICJDI4OTdiZDcxLTQzYjktNDg1Ni1iMWE4LTg3ZWNkYzBhODNjZNgCBeACAQ&sid=ce60ff64916cc08b4b5fb2b3f80fc344&keep_landing=1&sb_price_type=total&";
+        UrlRequest urlRequest = new UrlRequest(testOriginalUrl, "some text", null);
+        Connection.Response userIsLogging = connector.postRequestHtml("user", "user", "login");
+
+        Connection.Response mustCreateUrlInDatabase = connector.postRequestHtml(urlRequest, userIsLogging.cookies(), "main");
+        Url createResultUrlFromDatabase = urlRepository.findAll().get(0);
+        Connection.Response mustSuccessRedirectNoAuth = connector.getRequestJson(createResultUrlFromDatabase.getShortUrl());
+        urlService.deleteUrl(createResultUrlFromDatabase.getShortUrl());
+
+        assertEquals(HttpStatus.OK.value(), mustSuccessRedirectNoAuth.statusCode());
+        assertEquals(testOriginalUrl, mustSuccessRedirectNoAuth.url().toString());
     }
 }

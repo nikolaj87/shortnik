@@ -1,6 +1,5 @@
 package telrun.shortnik.dto;
 
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.URL;
 import telrun.shortnik.entity.User;
@@ -8,11 +7,12 @@ import telrun.shortnik.entity.User;
 import java.util.Objects;
 
 public class UrlRequest {
-    @URL
-    @Size(min = 30, max = 2048)
+
+    @URL(message = "please enter a valid url")
+    @Size(min = 30, max = 2048, message = "url should be between 30 and 2048 characters")
     private String longUrl;
 
-    @Size(max = 255)
+    @Size(max = 255, message = "description should be between 0 and 255 characters")
     private String description;
 
     private User user;

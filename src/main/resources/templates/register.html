@@ -9,12 +9,17 @@
 <h1>fast registration</h1>
 <form th:action="@{/register}" method="post" th:object="${userRequest}">
     <label for="name">Name:</label>
-    <input type="text" id ="name" th:field="*{name}" /><br/><br/>
-
+    <input type="text" id ="name" th:field="*{name}" />
+    <span class="validationError" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">username error</span>
+    <br/><br/>
     <label for="password">Password:</label>
-    <input type="password" id ="password" th:field="*{password}" th:required="required"/><br/><br/>
+    <input type="password" id ="password" th:field="*{password}" th:required="required"/>
+    <span class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</span>
+    <br/><br/>
     <label for="email">Email:</label>
-    <input type="email" id ="email" th:field="*{email}" th:required="required"/><br/><br/>
+    <input type="email" id ="email" th:field="*{email}" th:required="required"/>
+    <span class="validationError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</span>
+    <br/><br/>
 
     <button type="submit">send</button>
 </form>

@@ -10,9 +10,11 @@
 <form th:action="@{/main}" method="post" th:object="${urlRequest}">
     <label for="url">Put your URL here:</label>
     <input type="text" id="url" name="url" th:field="*{longUrl}" required>
+    <span class="validationError" th:if="${#fields.hasErrors('longUrl')}" th:errors="*{longUrl}">longUrl error</span>
     <br>
     <label for="description">Description (optional):</label>
     <input type="text" id="description" name="description" th:field="*{description}">
+    <span class="validationError" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description error</span>
     <br>
     <button type="submit">Shorten</button>
 </form>

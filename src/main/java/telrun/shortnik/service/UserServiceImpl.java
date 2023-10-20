@@ -1,6 +1,8 @@
 package telrun.shortnik.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,20 +20,17 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final Convertors convertors;
-    private static final Role USER_ROLE = new Role(3L, "USER", null);
-    private static final Role PREMIUM_ROLE = new Role(2L, "PREMIUM", null);
-
+    private static final Role USER_ROLE = new Role(3L, "ROLE_USER", null);
+    private static final Role PREMIUM_ROLE = new Role(2L, "ROLE_PREMIUM", null);
     @Autowired
     public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, Convertors convertors) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.convertors = convertors;
     }
-
     @Override
     public UserResponse createUser(UserRequest userRequest) {
         User userForSave = new User(0L, userRequest.getName(), passwordEncoder.encode(userRequest.getPassword()),
@@ -46,9 +45,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponse> getAllUsers() {
-        List<User> allUsers = userRepository.findAll();
-        return allUsers.stream().map(convertors::entityToUserResponse).toList();
+    public List<UserResponse> getAllUsersOnPage(PageRequest pageRequest) {
+        Page<User> allUsersOnPage = userRepository.findAll(pageRequest);
+        return allUsersOnPage.stream().map(convertors::entityToUserResponse).toList();
     }
 
     @Override

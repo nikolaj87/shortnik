@@ -1,7 +1,6 @@
 package telrun.shortnik.controllers.api;
 
 import com.google.gson.reflect.TypeToken;
-import net.bytebuddy.description.method.MethodDescription;
 import org.jsoup.Connection;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +11,10 @@ import org.springframework.http.HttpStatus;
 import telrun.shortnik.dto.UserRequest;
 import telrun.shortnik.dto.UserResponse;
 import telrun.shortnik.entity.Role;
-import telrun.shortnik.entity.User;
 import telrun.shortnik.repository.UserRepository;
+import telrun.shortnik.service.UserService;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -27,64 +25,103 @@ class UserControllersTest {
 
     @Autowired
     private GsoupHttpConnector connector;
-
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private UserService userService;
     @Autowired
     private JsonCreator jsonCreator;
+    private final UserRequest testUser = new UserRequest("Nik", "1Q.niki_password", "test@some_mail");
 
     @BeforeEach
-    public void methodBefore () {
-        userRepository.deleteAll();
+    public void methodBefore() {
+        userService.deleteUser(testUser.getName());
     }
     @AfterEach
-    public void clearDb () {
-        userRepository.deleteAll();
+     public void clearDb () {
+        userService.deleteUser(testUser.getName());
     }
 
     @Test
-    void whenCreateUser_thanUserIsCreated() throws IOException {
-        String userJson = jsonCreator.createJson(new UserRequest("testName", "testPassword", "testEmail"));
+    void whenCreateUser_thanUserIsCreated_noAuthentication() throws IOException {
+        var jsonUserForSave = jsonCreator.createJson(testUser);
 
-        Connection.Response resultOfPostRequest = connector.postRequestJson(userJson, "user");
-        Connection.Response resultOfGetRequest = connector.getRequestJson("user");
-        List<UserResponse> allUsersFromDatabase = jsonCreator.convertJsonToObject(resultOfGetRequest.body(),
+        Connection.Response resultOfCreateUserRequest = connector.postRequestJson(jsonUserForSave, "user");
+
+        assertTrue(userRepository.findUserByName("Nik").isPresent());
+        assertEquals(HttpStatus.CREATED.value(), resultOfCreateUserRequest.statusCode());
+    }
+
+    @Test
+    void mustNotDeleteUser_noAuthUserAuth() throws IOException {
+        Connection.Response addingTestUserToDatabase = connector.postRequestJson(jsonCreator.createJson(testUser), "user");
+
+        Connection.Response tryDeleteUserNoAuth = connector.deleteRequestJson("user/" + testUser.getName());
+        Connection.Response userIsLoggingApp = connector.postRequestHtml("user", "user", "login");
+        Connection.Response tryDeleteUser = connector.deleteRequestJson("user/" + testUser.getName(), userIsLoggingApp.cookies());
+
+        assertTrue(userRepository.findUserByName("Nik").isPresent());
+        assertEquals(HttpStatus.FORBIDDEN.value(), tryDeleteUser.statusCode());
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), tryDeleteUserNoAuth.statusCode());
+
+    }
+
+    @Test
+    void mustDeleteUser_adminAuthentication() throws IOException {
+        Connection.Response addingTestUserToDatabase = connector.postRequestJson(jsonCreator.createJson(testUser), "user");
+
+        Connection.Response adminIsLoggingApp = connector.postRequestHtml("admin", "admin", "login");
+        Connection.Response mustDeleteUser = connector.deleteRequestJson("user/" + testUser.getName(), adminIsLoggingApp.cookies());
+
+        assertTrue(userRepository.findUserByName("Nik").isEmpty());
+        assertEquals(HttpStatus.NO_CONTENT.value(), mustDeleteUser.statusCode());
+    }
+
+    @Test
+    void mustNotGetUsers_noAuthentication() throws IOException {
+
+        Connection.Response tryGetUsersNoAuth = connector.getRequestJson("user");
+        Connection.Response userIsLoggingApp = connector.postRequestHtml("user", "user", "login");
+        Connection.Response tryGetUsersUserAuth = connector.getRequestJson("user", userIsLoggingApp.cookies());
+
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), tryGetUsersNoAuth.statusCode());
+        assertEquals(HttpStatus.FORBIDDEN.value(), tryGetUsersUserAuth.statusCode());
+        assertTrue(tryGetUsersNoAuth.body().contains("<title>shortnik_login</title>"));
+    }
+
+    @Test
+    void mustAllowGetUsers_Admin() throws IOException {
+
+        Connection.Response adminIsLoggingApp = connector.postRequestHtml("admin", "admin", "login");
+        Connection.Response mustGetUsersAdminAuth = connector.getRequestJson("user", adminIsLoggingApp.cookies());
+        List<UserResponse> allUsersFromDatabase = jsonCreator.convertJsonToObject(mustGetUsersAdminAuth.body(),
                 new TypeToken<List<UserResponse>>() {}.getType());
 
-        assertEquals(1, allUsersFromDatabase.size());
-        assertEquals(HttpStatus.CREATED.value(), resultOfPostRequest.statusCode());
-        assertEquals(HttpStatus.OK.value(), resultOfGetRequest.statusCode());
-        assertTrue(resultOfGetRequest.body().contains("testName"));
-        assertTrue(resultOfGetRequest.body().contains("testEmail"));
-        assertTrue(allUsersFromDatabase.get(0).getRoles().contains(new Role(3L, "USER", null)));
+        assertEquals(HttpStatus.OK.value(), mustGetUsersAdminAuth.statusCode());
+        assertFalse(allUsersFromDatabase.isEmpty());
     }
 
     @Test
-    void whenDeleteUser_thanDbIsEmpty() throws IOException {
-        String userJson = jsonCreator.createJson(new UserRequest("testName2", "testPassword2", "testEmail2"));
+    void canNotAddPremiumRole_noAuth() throws IOException {
+        Connection.Response addingTestUserToDatabase = connector.postRequestJson(jsonCreator.createJson(testUser), "user");
+        long savedUserId = jsonCreator.convertJsonToObject(addingTestUserToDatabase.body(), new UserResponse()).getId();
 
-        connector.postRequestJson(userJson, "user");
-        Connection.Response resultDelete = connector.deleteRequestJson("user/testName2");
-        Connection.Response resultGet = connector.getRequestJson("user");
-        List<UserResponse> allUsers = jsonCreator.convertJsonToObject(resultGet.body()
-        , new TypeToken<List<UserResponse>>() {}.getType());
+        Connection.Response tryAddPremiumRole = connector.postRequestJson("", "user/" + savedUserId);
+        Set<Role> rolesResult = userRepository.findById(savedUserId).orElseThrow().getRoles();
 
-        assertEquals(HttpStatus.NO_CONTENT.value(), resultDelete.statusCode());
-        assertEquals(0, allUsers.size());
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), tryAddPremiumRole.statusCode());
+        assertFalse(rolesResult.contains(new Role(2L, "ROLE_PREMIUM", null)));
     }
 
     @Test
-    void whenAddPremiumRole_thanUserHasIt() throws IOException {
-        User savedUser = userRepository.save(new User(0L, "testUser", "testPassword", "testEmail",
-                new Timestamp(System.currentTimeMillis()), Set.of(new Role(3L, "USER", null)), Set.of()));
+    void mustAddPremiumRole_adminAuth() throws IOException {
+        Connection.Response addingTestUserToDatabase = connector.postRequestJson(jsonCreator.createJson(testUser), "user");
+        long savedUserId = jsonCreator.convertJsonToObject(addingTestUserToDatabase.body(), new UserResponse()).getId();
 
-        Connection.Response resultOfPatchRequest = connector.postRequestJson("", "user/" + savedUser.getId());
-        Connection.Response resultOfGetRequest = connector.getRequestJson("user");
-        List<UserResponse> allUsersFromDatabase = jsonCreator.convertJsonToObject(resultOfGetRequest.body(),
-                new TypeToken<List<UserResponse>>() {}.getType());
+        Connection.Response adminIsLoggingApp = connector.postRequestHtml("admin", "admin", "login");
+        Connection.Response tryAddPremiumRole = connector.postRequestJson("", "user/" + savedUserId, adminIsLoggingApp.cookies());
+        Set<Role> rolesResult = userRepository.findById(savedUserId).orElseThrow().getRoles();
 
-        assertEquals(1, allUsersFromDatabase.size());
-        assertTrue(allUsersFromDatabase.get(0).getRoles().contains(new Role(2L, "PREMIUM", null)));
+        assertTrue(rolesResult.contains(new Role(2L, "ROLE_PREMIUM", null)));
     }
 }

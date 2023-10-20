@@ -3,6 +3,8 @@ package telrun.shortnik.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,21 +30,23 @@ public class SecurityConfig {
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/main").authenticated()
-//                                .requestMatchers("/url").authenticated()
                                 .requestMatchers("/").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/url").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/user/{username}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/user/{userId}").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/url/delete/{shortUrl}").hasRole("ADMIN")
                                 .anyRequest().permitAll())
-                        .csrf(AbstractHttpConfigurer::disable)
-//                        .httpBasic(Customizer.withDefaults())
+                        .csrf(csrf -> csrf.disable())
                         .formLogin(login -> login
                                 .loginPage("/login")
-                                .successForwardUrl("/main"))
-//                                .successHandler((request, response, authentication) -> {
-//                                    response.sendRedirect("/main");
-//                                }))
+//                                .successForwardUrl("/main")) danger!!!
+                                .successHandler((request, response, authentication) -> {
+                                    response.sendRedirect("/main");
+                                }))
+//                        .httpBasic(Customizer.withDefaults())
                         .build();
     }
-//                .formLogin(withDefaults()) // Настраиваем страницу входа
-//                .logout(withDefaults()) // Настраиваем страницу выхода
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

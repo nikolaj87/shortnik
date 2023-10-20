@@ -1,8 +1,8 @@
 package telrun.shortnik.controllers.api;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import telrun.shortnik.dto.UserRequest;
@@ -23,7 +23,7 @@ public class UserControllers {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public UserResponse createUser(@RequestBody UserRequest userRequest) {
+    public UserResponse createUser(@Valid @RequestBody UserRequest userRequest) {
         return userService.createUser(userRequest);
     }
 
@@ -33,25 +33,11 @@ public class UserControllers {
         userService.deleteUser(name);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<UserResponse> getAllUsers() {
-        PageRequest page = PageRequest.of(0, 100);
-
-        return userService.getAllUsers();
+    public List<UserResponse> getUsersOnPage(@RequestParam(name = "page", defaultValue = "0") int page) {
+        PageRequest pageRequest = PageRequest.of(page, 30);
+        return userService.getAllUsersOnPage(pageRequest);
     }
-
-//    @GetMapping(params = "recent")
-//    public Iterable<Taco> recentTacos() {
-//        PageRequest page = PageRequest.of(0, 2, Sort.by("createdAt").descending());
-//        return tacoRepo.findAll(page).getContent();
-//    }
-//
-//    @GetMapping()
-//    public Iterable<Taco> getAllTacos() {
-//        PageRequest page = PageRequest.of(0, 3, Sort.by("createdAt").descending());
-//        return tacoRepo.findAll(page).getContent();
-//    }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{userId}")

@@ -12,11 +12,17 @@
             in  String name
             out void
 
-        3 getAllUsers           - добавить постраничный вывод
+        3 getAllUsers
             ROLE_ADMIN
             OK || bad request
             in  -----
             out List<UserResponseDTO>
+
+        4 addPremiumRole
+             ROLE_ADMIN
+             OK || bad request
+             in  usr_id
+             void
 
     /link/
         1 createLink
@@ -28,21 +34,14 @@
         2 "/redirect/{url}"
             NO_ROLE
             found || bad request
-            in String url
-            out RedirectView(url)
+            in urlRequest
+            out urlResponse
 
         3 deleteLink
             ROLE_ADMIN
             no content || bad request
             in id
             out void
-
-    /statistics/                         - наверно этого не будет
-        1 get statistics by user_id
-            role_premium
-            found || bad request
-            in int user_id
-            out Statistics
 
 neapi -)))
     shortnik /
@@ -86,5 +85,7 @@ Mandatory Requirements
     -платная роль (узнать на сколько сложны вобще алгоритмы оплаты) доступ к статистике, автопродление ссылок
     от последнего захода например на месяц. Также больше ссылок x10
 
----валидация форм ---errors
----постраничный вывод --пагинация
+---эксепшн хендлер  +
+---ограничение на количество ссылок
+---очистка дб с учетом премиум роли
+---залогировать чтото

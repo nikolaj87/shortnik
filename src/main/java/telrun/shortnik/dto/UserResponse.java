@@ -1,6 +1,5 @@
 package telrun.shortnik.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import telrun.shortnik.entity.Role;
 import telrun.shortnik.entity.Url;
 
