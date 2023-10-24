@@ -61,6 +61,17 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
@@ -123,6 +134,7 @@
                     <excludes>
                         <exclude>telrun/shortnik/dto/**</exclude>
                         <exclude>telrun/shortnik/entity/**</exclude>
+                        <exclude>telrun/shortnik/exception/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>

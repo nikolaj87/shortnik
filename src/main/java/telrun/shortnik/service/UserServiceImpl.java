@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addPremiumRole(Long userId) {
-//        userRepository.addPremiumRole(userId);
         Optional<User> entityUserOptional = userRepository.findById(userId);
         if (entityUserOptional.isPresent()) {
             User entityUser = entityUserOptional.get();

@@ -80,9 +80,9 @@ class UserControllersTest {
     @Test
     void mustNotGetUsers_noAuthentication() throws IOException {
 
-        Connection.Response tryGetUsersNoAuth = connector.getRequestJson("user");
+        Connection.Response tryGetUsersNoAuth = connector.getRequestJson("user/get-page");
         Connection.Response userIsLoggingApp = connector.postRequestHtml("user", "user", "login");
-        Connection.Response tryGetUsersUserAuth = connector.getRequestJson("user", userIsLoggingApp.cookies());
+        Connection.Response tryGetUsersUserAuth = connector.getRequestJson("user/get-page", userIsLoggingApp.cookies());
 
         assertEquals(HttpStatus.UNAUTHORIZED.value(), tryGetUsersNoAuth.statusCode());
         assertEquals(HttpStatus.FORBIDDEN.value(), tryGetUsersUserAuth.statusCode());
@@ -93,7 +93,7 @@ class UserControllersTest {
     void mustAllowGetUsers_Admin() throws IOException {
 
         Connection.Response adminIsLoggingApp = connector.postRequestHtml("admin", "admin", "login");
-        Connection.Response mustGetUsersAdminAuth = connector.getRequestJson("user", adminIsLoggingApp.cookies());
+        Connection.Response mustGetUsersAdminAuth = connector.getRequestJson("user/get-page", adminIsLoggingApp.cookies());
         List<UserResponse> allUsersFromDatabase = jsonCreator.convertJsonToObject(mustGetUsersAdminAuth.body(),
                 new TypeToken<List<UserResponse>>() {}.getType());
 

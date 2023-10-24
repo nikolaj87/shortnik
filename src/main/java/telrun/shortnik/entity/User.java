@@ -22,7 +22,6 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "registered_at")
     private Timestamp registeredAt;
-    //    private Timestamp lastUpdate;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "role_user",
