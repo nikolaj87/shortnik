@@ -1,12 +1,10 @@
 package telrun.shortnik.service;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 import telrun.shortnik.dto.UserRequest;
 import telrun.shortnik.dto.UserResponse;
-import telrun.shortnik.entity.User;
 
 import java.util.List;
 

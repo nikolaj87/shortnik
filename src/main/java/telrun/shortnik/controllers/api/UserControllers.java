@@ -33,7 +33,7 @@ public class UserControllers {
         userService.deleteUser(name);
     }
 
-    @GetMapping
+    @GetMapping("/get-page")
     public List<UserResponse> getUsersOnPage(@RequestParam(name = "page", defaultValue = "0") int page) {
         PageRequest pageRequest = PageRequest.of(page, 30);
         return userService.getAllUsersOnPage(pageRequest);

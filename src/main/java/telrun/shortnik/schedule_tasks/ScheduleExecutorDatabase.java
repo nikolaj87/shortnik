@@ -18,7 +18,7 @@ public class ScheduleExecutorDatabase {
     }
 
     @Scheduled(cron = "0 0 02 * * *")
-    public void cronExpressionTask() {
+    public void cronExpressionTaskCleanDb() {
         urlService.cleanDatabase();
     }
 }

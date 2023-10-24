@@ -53,7 +53,7 @@ class TemplateControllersTest {
         assertTrue(requestMainTemplate.body().contains("<title>shortnik_main</title>"));
     }
 
-//    @Test надо отвязать 0й элемент
+    @Test
     void mustCreateShortUrlForAuthenticatedUser_andChangeUrlRequestFromModel() throws IOException {
         String testOriginalUrl = "https://www.booking.com/index.ru.html?label=gen173nr-1BCAEoggI46AdIM1gEaLYBiAEBmAEhuAEXyAEM2AEB6AEBiAIBqAIDuAKC1bSpBsACAdICJDI4OTdiZDcxLTQzYjktNDg1Ni1iMWE4LTg3ZWNkYzBhODNjZNgCBeACAQ&sid=ce60ff64916cc08b4b5fb2b3f80fc344&keep_landing=1&sb_price_type=total&";
         UrlRequest urlRequest = new UrlRequest(testOriginalUrl, "some text", null);

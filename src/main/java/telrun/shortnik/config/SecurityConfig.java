@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -29,22 +28,22 @@ public class SecurityConfig {
                         .authorizeHttpRequests(x -> x
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/{shortUrl}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/user/get-page").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/url/{shortUrl}").permitAll()
                                 .requestMatchers("/main").authenticated()
                                 .requestMatchers("/").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/url").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/user/{username}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/user/{userId}").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/url/delete/{shortUrl}").hasRole("ADMIN")
                                 .anyRequest().permitAll())
-                        .csrf(csrf -> csrf.disable())
+                        .csrf(AbstractHttpConfigurer::disable)
                         .formLogin(login -> login
                                 .loginPage("/login")
-//                                .successForwardUrl("/main")) danger!!!
                                 .successHandler((request, response, authentication) -> {
                                     response.sendRedirect("/main");
                                 }))
-//                        .httpBasic(Customizer.withDefaults())
                         .build();
     }
 

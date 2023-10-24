@@ -9,7 +9,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import telrun.shortnik.dto.UrlRequest;
-import telrun.shortnik.dto.UrlResponse;
 import telrun.shortnik.dto.UserRequest;
 import telrun.shortnik.entity.User;
 import telrun.shortnik.service.UrlService;
