@@ -4,9 +4,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+/**
+ * This class generates short links. Here are the allowed characters: {@link Generator#ALLOWED_CHARS}.
+ * A short link consists of 6 random characters and provides approximately 60 billion combinations.
+ */
 @Component
 public class Generator {
-    //57 млрд комб
     private static final String ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final int LINK_SIZE = 6;
     private final Random random = new Random();

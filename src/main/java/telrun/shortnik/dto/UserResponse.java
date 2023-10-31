@@ -5,7 +5,9 @@ import telrun.shortnik.entity.Url;
 
 import java.sql.Timestamp;
 import java.util.Set;
-
+/**
+ * UserResponse class represents a response containing user information including their ID, name, email, registration timestamp, roles, and associated URLs.
+ */
 public class UserResponse {
 
     private Long id;

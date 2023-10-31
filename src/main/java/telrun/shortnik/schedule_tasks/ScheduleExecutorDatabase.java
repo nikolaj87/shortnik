@@ -10,7 +10,6 @@ import telrun.shortnik.service.UrlService;
 @EnableScheduling
 @EnableAsync
 public class ScheduleExecutorDatabase {
-
     private final UrlService urlService;
 
     public ScheduleExecutorDatabase(UrlService urlService) {

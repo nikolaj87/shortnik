@@ -29,19 +29,41 @@ public class TemplateControllers {
         this.urlService = urlService;
     }
 
+    /**
+     * Render the main page using HTTP GET method.
+     * This controller serves the path "/".
+     *
+     * @return The "main" view.
+     */
     @GetMapping("/")
     public String mainPage() {
         return "main";
     }
+
+    /**
+     * Render the main page using HTTP GET method.
+     * This controller serves the path and "/main".
+     *
+     * @return The "main" view.
+     */
 
     @GetMapping("/main")
     public String mainPage2() {
         return "main";
     }
 
+    /**
+     * Create a new URL using HTTP POST method.
+     * This controller serves the path "/main".
+     *
+     * @param urlRequest The request containing URL details.
+     * @param errors     Errors that might occur during form submission.
+     * @param user       The authenticated user.
+     * @return The "main" view or the created URL.
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/main")
-    public String createUrl(@Valid @ModelAttribute UrlRequest urlRequest,  Errors errors, @AuthenticationPrincipal User user) {
+    public String createUrl(@Valid @ModelAttribute UrlRequest urlRequest, Errors errors, @AuthenticationPrincipal User user) {
         if (errors.hasErrors()) return "main";
         urlRequest.setUser(user);
         String shortUrl = urlService.createUrl(urlRequest, user);
@@ -50,29 +72,61 @@ public class TemplateControllers {
         return "main";
     }
 
+    /**
+     * Redirect to the original long URL using HTTP GET method.
+     *
+     * @param urlShort The short URL.
+     * @return A RedirectView to the original long URL.
+     */
     @GetMapping("/{urlShort}")
-    public RedirectView redirectToLongUrl (@PathVariable String urlShort) {
+    public RedirectView redirectToLongUrl(@PathVariable String urlShort) {
         String originalUrl = urlService.getLongUrlByShortName(urlShort);
         return new RedirectView(originalUrl);
     }
 
+    /**
+     * Render the login page using HTTP GET method.
+     * This controller serves the path "/login".
+     *
+     * @return The "login" view.
+     */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @GetMapping("/login")
     public String homePage() {
         return "login";
     }
 
+    /**
+     * Process the login form using HTTP POST method.
+     * This controller serves the path "/login".
+     *
+     * @return The "main" view upon successful login.
+     */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
     public String loginSubmit() {
         return "main";
     }
 
+    /**
+     * Render the registration page using HTTP GET method.
+     * This controller serves the path "/register".
+     *
+     * @return The "register" view.
+     */
     @GetMapping("/register")
     public String registerPage() {
         return "register";
     }
 
+    /**
+     * Create a new user using HTTP POST method.
+     * This controller serves the path "/register".
+     *
+     * @param userRequest The request containing user details.
+     * @param errors      Errors that might occur during form submission.
+     * @return The "register" view or the "login" view upon successful registration.
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
     public String createUser(@Valid @ModelAttribute UserRequest userRequest, Errors errors) {

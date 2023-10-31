@@ -18,6 +18,6 @@ public class CacheConfig {
                                 .setEvictionPolicy(EvictionPolicy.LFU)
                                 .setSize(100)
                         )
-                        .setTimeToLiveSeconds(180));
+                        .setTimeToLiveSeconds(3600));
     }
 }

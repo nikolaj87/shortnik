@@ -5,9 +5,16 @@ import org.hibernate.validator.constraints.URL;
 import telrun.shortnik.entity.User;
 
 import java.util.Objects;
-
+/**
+ * UrlRequest class represents a request containing URL information, including the long URL, description, and the associated user.
+ */
 public class UrlRequest {
+    /**
+     * The long URL to be shortened. It must be a valid URL, with a minimum length of 30 characters and a maximum length of 2048 characters.
 
+     * URL(message = "please enter a valid url") Specifies that the field must be a valid URL.
+     * Size(min = 30, max = 2048, message = "url should be between 30 and 2048 characters") Specifies the size constraints for the field, including the minimum and maximum lengths.
+     */
     @URL(message = "please enter a valid url")
     @Size(min = 30, max = 2048, message = "url should be between 30 and 2048 characters")
     private String longUrl;

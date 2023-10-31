@@ -9,6 +9,9 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Entity class representing a user. Implements UserDetails for Spring Security integration.
+ */
 @Entity
 public class User implements UserDetails {
     @Id
