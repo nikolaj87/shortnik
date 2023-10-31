@@ -1,0 +1,13 @@
+telrun.shortnik
+telrun.shortnik.config
+telrun.shortnik.config.filters
+telrun.shortnik.controllers
+telrun.shortnik.controllers.api
+telrun.shortnik.convertors
+telrun.shortnik.dto
+telrun.shortnik.entity
+telrun.shortnik.exception
+telrun.shortnik.generator
+telrun.shortnik.repository
+telrun.shortnik.schedule_tasks
+telrun.shortnik.service

@@ -2,7 +2,9 @@ package telrun.shortnik.dto;
 
 
 import java.util.Objects;
-
+/**
+ * UrlResponse class represents a response containing the long URL.
+ */
 public class UrlResponse {
     private String longUrl;
 
