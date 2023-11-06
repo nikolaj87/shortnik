@@ -1,0 +1,174 @@
+2023-11-06T12:04:48.827+01:00  INFO 6452 --- [main] telrun.shortnik.ShortnikApplication      : Starting ShortnikApplication using Java 19.0.1 with PID 6452 (C:\Users\Slonick\IdeaProjectsUltimate\shortnik\target\classes started by Slonick in C:\Users\Slonick\IdeaProjectsUltimate\shortnik)
+2023-11-06T12:04:48.834+01:00  INFO 6452 --- [main] telrun.shortnik.ShortnikApplication      : No active profile set, falling back to 1 default profile: "default"
+2023-11-06T12:05:01.712+01:00  INFO 6452 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-11-06T12:05:01.808+01:00  INFO 6452 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 88 ms. Found 2 JPA repository interfaces.
+2023-11-06T12:05:02.627+01:00  INFO 6452 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-11-06T12:05:02.650+01:00  INFO 6452 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-06T12:05:02.650+01:00  INFO 6452 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.13]
+2023-11-06T12:05:02.750+01:00  INFO 6452 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-06T12:05:02.750+01:00  INFO 6452 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 12965 ms
+2023-11-06T12:05:03.018+01:00  WARN 6452 --- [main] c.h.i.impl.HazelcastInstanceFactory      : Hazelcast is starting in a Java modular environment (Java 9 and newer) but without proper access to required Java packages. Use additional Java arguments to provide Hazelcast access to Java internal API. The internal API access is used to get the best performance results. Arguments to be used:
+ --add-modules java.se --add-exports java.base/jdk.internal.ref=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.management/sun.management=ALL-UNNAMED --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED
+2023-11-06T12:05:03.274+01:00  INFO 6452 --- [main] com.hazelcast.system.logo                : [192.168.1.114]:5701 [dev] [5.2.4] 
+	+       +  o    o     o     o---o o----o o      o---o     o     o----o o--o--o
+	+ +   + +  |    |    / \       /  |      |     /         / \    |         |   
+	+ + + + +  o----o   o   o     o   o----o |    o         o   o   o----o    |   
+	+ +   + +  |    |  /     \   /    |      |     \       /     \       |    |   
+	+       +  o    o o       o o---o o----o o----o o---o o       o o----o    o   
+2023-11-06T12:05:03.275+01:00  INFO 6452 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Copyright (c) 2008-2022, Hazelcast, Inc. All Rights Reserved.
+2023-11-06T12:05:03.275+01:00  INFO 6452 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Hazelcast Platform 5.2.4 (20230613 - bcacb08) starting at [192.168.1.114]:5701
+2023-11-06T12:05:03.276+01:00  INFO 6452 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Cluster name: dev
+2023-11-06T12:05:03.277+01:00  INFO 6452 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Integrity Checker is disabled. Fail-fast on corrupted executables will not be performed. For more information, see the documentation for Integrity Checker.
+2023-11-06T12:05:03.280+01:00  INFO 6452 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] The Jet engine is disabled.
+To enable the Jet engine on the members, do one of the following:
+  - Change member config using Java API: config.getJetConfig().setEnabled(true)
+  - Change XML/YAML configuration property: Set hazelcast.jet.enabled to true
+  - Add system property: -Dhz.jet.enabled=true (for Hazelcast embedded, works only when loading config via Config.load)
+  - Add environment variable: HZ_JET_ENABLED=true (recommended when running container image. For Hazelcast embedded, works only when loading config via Config.load)
+2023-11-06T12:05:04.129+01:00  INFO 6452 --- [main] com.hazelcast.system.security            : [192.168.1.114]:5701 [dev] [5.2.4] Enable DEBUG/FINE log level for log category com.hazelcast.system.security  or use -Dhazelcast.security.recommendations system property to see security recommendations and the status of current config.
+2023-11-06T12:05:04.262+01:00  INFO 6452 --- [main] com.hazelcast.instance.impl.Node         : [192.168.1.114]:5701 [dev] [5.2.4] Using Multicast discovery
+2023-11-06T12:05:04.291+01:00  WARN 6452 --- [main] com.hazelcast.cp.CPSubsystem             : [192.168.1.114]:5701 [dev] [5.2.4] CP Subsystem is not enabled. CP data structures will operate in UNSAFE mode! Please note that UNSAFE mode will not provide strong consistency guarantees.
+2023-11-06T12:05:04.658+01:00  INFO 6452 --- [main] c.h.internal.diagnostics.Diagnostics     : [192.168.1.114]:5701 [dev] [5.2.4] Diagnostics disabled. To enable add -Dhazelcast.diagnostics.enabled=true to the JVM arguments.
+2023-11-06T12:05:04.696+01:00  INFO 6452 --- [main] com.hazelcast.core.LifecycleService      : [192.168.1.114]:5701 [dev] [5.2.4] [192.168.1.114]:5701 is STARTING
+2023-11-06T12:05:07.244+01:00  INFO 6452 --- [main] c.h.internal.cluster.ClusterService      : [192.168.1.114]:5701 [dev] [5.2.4] 
+
+Members {size:1, ver:1} [
+	Member [192.168.1.114]:5701 - e9e18cb2-6e2e-46ae-ac05-bb6de79847aa this
+]
+
+2023-11-06T12:05:08.385+01:00  INFO 6452 --- [main] com.hazelcast.core.LifecycleService      : [192.168.1.114]:5701 [dev] [5.2.4] [192.168.1.114]:5701 is STARTED
+2023-11-06T12:05:12.064+01:00  INFO 6452 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.16.3 by Redgate
+2023-11-06T12:05:12.066+01:00  INFO 6452 --- [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2023-11-06T12:05:12.067+01:00  INFO 6452 --- [main] o.f.c.internal.license.VersionPrinter    : 
+2023-11-06T12:05:12.098+01:00  INFO 6452 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-11-06T12:05:56.669+01:00  INFO 6540 --- [main] telrun.shortnik.ShortnikApplication      : Starting ShortnikApplication using Java 19.0.1 with PID 6540 (C:\Users\Slonick\IdeaProjectsUltimate\shortnik\target\classes started by Slonick in C:\Users\Slonick\IdeaProjectsUltimate\shortnik)
+2023-11-06T12:05:56.671+01:00  INFO 6540 --- [main] telrun.shortnik.ShortnikApplication      : No active profile set, falling back to 1 default profile: "default"
+2023-11-06T12:05:57.409+01:00  INFO 6540 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-11-06T12:05:57.482+01:00  INFO 6540 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 2 JPA repository interfaces.
+2023-11-06T12:05:58.075+01:00  INFO 6540 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-11-06T12:05:58.084+01:00  INFO 6540 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-06T12:05:58.085+01:00  INFO 6540 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.13]
+2023-11-06T12:05:58.179+01:00  INFO 6540 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-06T12:05:58.179+01:00  INFO 6540 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1465 ms
+2023-11-06T12:05:58.297+01:00  WARN 6540 --- [main] c.h.i.impl.HazelcastInstanceFactory      : Hazelcast is starting in a Java modular environment (Java 9 and newer) but without proper access to required Java packages. Use additional Java arguments to provide Hazelcast access to Java internal API. The internal API access is used to get the best performance results. Arguments to be used:
+ --add-modules java.se --add-exports java.base/jdk.internal.ref=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.management/sun.management=ALL-UNNAMED --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED
+2023-11-06T12:05:58.384+01:00  INFO 6540 --- [main] com.hazelcast.system.logo                : [192.168.1.114]:5701 [dev] [5.2.4] 
+	+       +  o    o     o     o---o o----o o      o---o     o     o----o o--o--o
+	+ +   + +  |    |    / \       /  |      |     /         / \    |         |   
+	+ + + + +  o----o   o   o     o   o----o |    o         o   o   o----o    |   
+	+ +   + +  |    |  /     \   /    |      |     \       /     \       |    |   
+	+       +  o    o o       o o---o o----o o----o o---o o       o o----o    o   
+2023-11-06T12:05:58.384+01:00  INFO 6540 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Copyright (c) 2008-2022, Hazelcast, Inc. All Rights Reserved.
+2023-11-06T12:05:58.384+01:00  INFO 6540 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Hazelcast Platform 5.2.4 (20230613 - bcacb08) starting at [192.168.1.114]:5701
+2023-11-06T12:05:58.384+01:00  INFO 6540 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Cluster name: dev
+2023-11-06T12:05:58.384+01:00  INFO 6540 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Integrity Checker is disabled. Fail-fast on corrupted executables will not be performed. For more information, see the documentation for Integrity Checker.
+2023-11-06T12:05:58.386+01:00  INFO 6540 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] The Jet engine is disabled.
+To enable the Jet engine on the members, do one of the following:
+  - Change member config using Java API: config.getJetConfig().setEnabled(true)
+  - Change XML/YAML configuration property: Set hazelcast.jet.enabled to true
+  - Add system property: -Dhz.jet.enabled=true (for Hazelcast embedded, works only when loading config via Config.load)
+  - Add environment variable: HZ_JET_ENABLED=true (recommended when running container image. For Hazelcast embedded, works only when loading config via Config.load)
+2023-11-06T12:05:58.783+01:00  INFO 6540 --- [main] com.hazelcast.system.security            : [192.168.1.114]:5701 [dev] [5.2.4] Enable DEBUG/FINE log level for log category com.hazelcast.system.security  or use -Dhazelcast.security.recommendations system property to see security recommendations and the status of current config.
+2023-11-06T12:05:58.849+01:00  INFO 6540 --- [main] com.hazelcast.instance.impl.Node         : [192.168.1.114]:5701 [dev] [5.2.4] Using Multicast discovery
+2023-11-06T12:05:58.852+01:00  WARN 6540 --- [main] com.hazelcast.cp.CPSubsystem             : [192.168.1.114]:5701 [dev] [5.2.4] CP Subsystem is not enabled. CP data structures will operate in UNSAFE mode! Please note that UNSAFE mode will not provide strong consistency guarantees.
+2023-11-06T12:05:59.057+01:00  INFO 6540 --- [main] c.h.internal.diagnostics.Diagnostics     : [192.168.1.114]:5701 [dev] [5.2.4] Diagnostics disabled. To enable add -Dhazelcast.diagnostics.enabled=true to the JVM arguments.
+2023-11-06T12:05:59.062+01:00  INFO 6540 --- [main] com.hazelcast.core.LifecycleService      : [192.168.1.114]:5701 [dev] [5.2.4] [192.168.1.114]:5701 is STARTING
+2023-11-06T12:06:01.414+01:00  INFO 6540 --- [main] c.h.internal.cluster.ClusterService      : [192.168.1.114]:5701 [dev] [5.2.4] 
+
+Members {size:1, ver:1} [
+	Member [192.168.1.114]:5701 - dc89af21-3230-469b-965a-8370d3b5c886 this
+]
+
+2023-11-06T12:06:01.455+01:00  INFO 6540 --- [main] com.hazelcast.core.LifecycleService      : [192.168.1.114]:5701 [dev] [5.2.4] [192.168.1.114]:5701 is STARTED
+2023-11-06T12:06:01.720+01:00  INFO 6540 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.16.3 by Redgate
+2023-11-06T12:06:01.720+01:00  INFO 6540 --- [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2023-11-06T12:06:01.720+01:00  INFO 6540 --- [main] o.f.c.internal.license.VersionPrinter    : 
+2023-11-06T12:06:01.732+01:00  INFO 6540 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-11-06T12:06:02.470+01:00  INFO 6540 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6d4c18b8
+2023-11-06T12:06:02.476+01:00  INFO 6540 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-11-06T12:06:02.652+01:00  INFO 6540 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/shortnik (MySQL 8.0)
+2023-11-06T12:06:03.169+01:00  INFO 6540 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 9 migrations (execution time 00:00.271s)
+2023-11-06T12:06:03.200+01:00  INFO 6540 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `shortnik`: 1.9
+2023-11-06T12:06:03.201+01:00  INFO 6540 --- [main] o.f.core.internal.command.DbMigrate      : Schema `shortnik` is up to date. No migration necessary.
+2023-11-06T12:06:03.551+01:00  INFO 6540 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-11-06T12:06:03.675+01:00  INFO 6540 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.9.Final
+2023-11-06T12:06:03.677+01:00  INFO 6540 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-11-06T12:06:03.934+01:00  INFO 6540 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-11-06T12:06:04.141+01:00  INFO 6540 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-11-06T12:06:04.671+01:00  INFO 6540 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-11-06T12:06:05.768+01:00  INFO 6540 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-11-06T12:06:05.828+01:00  INFO 6540 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-11-06T12:06:06.295+01:00  INFO 6540 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-11-06T12:06:06.505+01:00  WARN 6540 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-11-06T12:06:06.951+01:00  INFO 6540 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7a213820, org.springframework.security.web.session.ForceEagerSessionCreationFilter@34b69a14, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@210b4145, org.springframework.security.web.context.SecurityContextHolderFilter@25767bd9, org.springframework.security.web.header.HeaderWriterFilter@1bbf7e81, org.springframework.security.web.authentication.logout.LogoutFilter@511e0453, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@130901fd, org.springframework.security.web.session.ConcurrentSessionFilter@302fa67a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2fad470b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@413773e6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@19cb3f, org.springframework.security.web.session.SessionManagementFilter@7172525e, org.springframework.security.web.access.ExceptionTranslationFilter@339d5e8, org.springframework.security.web.access.intercept.AuthorizationFilter@727d937a]
+2023-11-06T12:06:07.348+01:00  INFO 6540 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-11-06T12:06:07.359+01:00  INFO 6540 --- [main] telrun.shortnik.ShortnikApplication      : Started ShortnikApplication in 11.067 seconds (process running for 11.637)
+2023-11-06T12:06:28.049+01:00  INFO 6540 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-11-06T12:06:28.051+01:00  INFO 6540 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-11-06T12:06:28.056+01:00  INFO 6540 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2023-11-06T12:06:28.614+01:00  WARN 6540 --- [http-nio-8080-exec-1] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [361] milliseconds.
+2023-11-06T12:06:32.190+01:00  INFO 6540 --- [http-nio-8080-exec-4] c.h.i.p.impl.PartitionStateManager       : [192.168.1.114]:5701 [dev] [5.2.4] Initializing cluster partition table arrangement...
+2023-11-06T12:06:37.743+01:00  WARN 6540 --- [hz.hazelcast-instance.partition-operation.thread-0] c.h.map.impl.eviction.EvictionChecker    : [192.168.1.114]:5701 [dev] [5.2.4] The max size configuration for map "url" does not allow any data in the map. Given the current cluster size of 1 members with 271 partitions, max size should be at least 271. Map size is forced set to 271 for backward compatibility
+2023-11-06T12:07:25.891+01:00  INFO 6540 --- [http-nio-8080-exec-4] t.shortnik.exception.ExceptionHandlers   : a new url created Url{id=93, shortName='ESfHxg', longName='https://nv.ua/ukr/ukraine/events/128-brigada-cherez-udar-rf-zaginuli-19-biyciv-oficiyna-zayava-novini-ukrajini-50366015.html', createdAt=2023-11-06 12:07:25.754, lastUse=2023-11-06 12:07:25.754, description='ссылка с укр нет', user=telrun.shortnik.entity.User@192f1876}
+2023-11-06T12:23:17.231+01:00  INFO 7492 --- [main] telrun.shortnik.ShortnikApplication      : Starting ShortnikApplication using Java 19.0.1 with PID 7492 (C:\Users\Slonick\IdeaProjectsUltimate\shortnik\target\classes started by Slonick in C:\Users\Slonick\IdeaProjectsUltimate\shortnik)
+2023-11-06T12:23:17.233+01:00  INFO 7492 --- [main] telrun.shortnik.ShortnikApplication      : No active profile set, falling back to 1 default profile: "default"
+2023-11-06T12:23:17.988+01:00  INFO 7492 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-11-06T12:23:18.048+01:00  INFO 7492 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 2 JPA repository interfaces.
+2023-11-06T12:23:18.620+01:00  INFO 7492 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-11-06T12:23:18.629+01:00  INFO 7492 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-06T12:23:18.629+01:00  INFO 7492 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.13]
+2023-11-06T12:23:18.714+01:00  INFO 7492 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-06T12:23:18.714+01:00  INFO 7492 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1435 ms
+2023-11-06T12:23:18.832+01:00  WARN 7492 --- [main] c.h.i.impl.HazelcastInstanceFactory      : Hazelcast is starting in a Java modular environment (Java 9 and newer) but without proper access to required Java packages. Use additional Java arguments to provide Hazelcast access to Java internal API. The internal API access is used to get the best performance results. Arguments to be used:
+ --add-modules java.se --add-exports java.base/jdk.internal.ref=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.management/sun.management=ALL-UNNAMED --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED
+2023-11-06T12:23:18.929+01:00  INFO 7492 --- [main] com.hazelcast.system.logo                : [192.168.1.114]:5701 [dev] [5.2.4] 
+	+       +  o    o     o     o---o o----o o      o---o     o     o----o o--o--o
+	+ +   + +  |    |    / \       /  |      |     /         / \    |         |   
+	+ + + + +  o----o   o   o     o   o----o |    o         o   o   o----o    |   
+	+ +   + +  |    |  /     \   /    |      |     \       /     \       |    |   
+	+       +  o    o o       o o---o o----o o----o o---o o       o o----o    o   
+2023-11-06T12:23:18.929+01:00  INFO 7492 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Copyright (c) 2008-2022, Hazelcast, Inc. All Rights Reserved.
+2023-11-06T12:23:18.929+01:00  INFO 7492 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Hazelcast Platform 5.2.4 (20230613 - bcacb08) starting at [192.168.1.114]:5701
+2023-11-06T12:23:18.929+01:00  INFO 7492 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Cluster name: dev
+2023-11-06T12:23:18.929+01:00  INFO 7492 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] Integrity Checker is disabled. Fail-fast on corrupted executables will not be performed. For more information, see the documentation for Integrity Checker.
+2023-11-06T12:23:18.931+01:00  INFO 7492 --- [main] com.hazelcast.system                     : [192.168.1.114]:5701 [dev] [5.2.4] The Jet engine is disabled.
+To enable the Jet engine on the members, do one of the following:
+  - Change member config using Java API: config.getJetConfig().setEnabled(true)
+  - Change XML/YAML configuration property: Set hazelcast.jet.enabled to true
+  - Add system property: -Dhz.jet.enabled=true (for Hazelcast embedded, works only when loading config via Config.load)
+  - Add environment variable: HZ_JET_ENABLED=true (recommended when running container image. For Hazelcast embedded, works only when loading config via Config.load)
+2023-11-06T12:23:19.364+01:00  INFO 7492 --- [main] com.hazelcast.system.security            : [192.168.1.114]:5701 [dev] [5.2.4] Enable DEBUG/FINE log level for log category com.hazelcast.system.security  or use -Dhazelcast.security.recommendations system property to see security recommendations and the status of current config.
+2023-11-06T12:23:19.444+01:00  INFO 7492 --- [main] com.hazelcast.instance.impl.Node         : [192.168.1.114]:5701 [dev] [5.2.4] Using Multicast discovery
+2023-11-06T12:23:19.448+01:00  WARN 7492 --- [main] com.hazelcast.cp.CPSubsystem             : [192.168.1.114]:5701 [dev] [5.2.4] CP Subsystem is not enabled. CP data structures will operate in UNSAFE mode! Please note that UNSAFE mode will not provide strong consistency guarantees.
+2023-11-06T12:23:19.666+01:00  INFO 7492 --- [main] c.h.internal.diagnostics.Diagnostics     : [192.168.1.114]:5701 [dev] [5.2.4] Diagnostics disabled. To enable add -Dhazelcast.diagnostics.enabled=true to the JVM arguments.
+2023-11-06T12:23:19.671+01:00  INFO 7492 --- [main] com.hazelcast.core.LifecycleService      : [192.168.1.114]:5701 [dev] [5.2.4] [192.168.1.114]:5701 is STARTING
+2023-11-06T12:23:22.144+01:00  INFO 7492 --- [main] c.h.internal.cluster.ClusterService      : [192.168.1.114]:5701 [dev] [5.2.4] 
+
+Members {size:1, ver:1} [
+	Member [192.168.1.114]:5701 - 4e8039b5-510c-4c46-b03e-1dce0d9b8dec this
+]
+
+2023-11-06T12:23:22.180+01:00  INFO 7492 --- [main] com.hazelcast.core.LifecycleService      : [192.168.1.114]:5701 [dev] [5.2.4] [192.168.1.114]:5701 is STARTED
+2023-11-06T12:23:22.433+01:00  INFO 7492 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.16.3 by Redgate
+2023-11-06T12:23:22.434+01:00  INFO 7492 --- [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2023-11-06T12:23:22.436+01:00  INFO 7492 --- [main] o.f.c.internal.license.VersionPrinter    : 
+2023-11-06T12:23:22.454+01:00  INFO 7492 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-11-06T12:23:22.830+01:00  INFO 7492 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6be80629
+2023-11-06T12:23:22.832+01:00  INFO 7492 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-11-06T12:23:22.865+01:00  INFO 7492 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/shortnik (MySQL 8.0)
+2023-11-06T12:23:22.925+01:00  INFO 7492 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 9 migrations (execution time 00:00.029s)
+2023-11-06T12:23:22.944+01:00  INFO 7492 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `shortnik`: 1.9
+2023-11-06T12:23:22.945+01:00  INFO 7492 --- [main] o.f.core.internal.command.DbMigrate      : Schema `shortnik` is up to date. No migration necessary.
+2023-11-06T12:23:23.039+01:00  INFO 7492 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-11-06T12:23:23.111+01:00  INFO 7492 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.9.Final
+2023-11-06T12:23:23.113+01:00  INFO 7492 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-11-06T12:23:23.239+01:00  INFO 7492 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-11-06T12:23:23.378+01:00  INFO 7492 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-11-06T12:23:23.638+01:00  INFO 7492 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-11-06T12:23:24.351+01:00  INFO 7492 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-11-06T12:23:24.380+01:00  INFO 7492 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-11-06T12:23:24.697+01:00  INFO 7492 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-11-06T12:23:24.884+01:00  WARN 7492 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-11-06T12:23:25.215+01:00  INFO 7492 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4d2068ea, org.springframework.security.web.session.ForceEagerSessionCreationFilter@65a42136, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5145dddc, org.springframework.security.web.context.SecurityContextHolderFilter@858bf8c, org.springframework.security.web.header.HeaderWriterFilter@3ad49704, org.springframework.security.web.authentication.logout.LogoutFilter@53a2dbf2, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5f2312f3, org.springframework.security.web.session.ConcurrentSessionFilter@10bf2726, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5135b459, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@312ddc51, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3b191676, org.springframework.security.web.session.SessionManagementFilter@2fb5e706, org.springframework.security.web.access.ExceptionTranslationFilter@49d4a2cf, org.springframework.security.web.access.intercept.AuthorizationFilter@e206be5]
+2023-11-06T12:23:25.577+01:00  INFO 7492 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-11-06T12:23:25.592+01:00  INFO 7492 --- [main] telrun.shortnik.ShortnikApplication      : Started ShortnikApplication in 8.756 seconds (process running for 9.319)

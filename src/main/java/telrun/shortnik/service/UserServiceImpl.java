@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
      * A conditional paid premium role in the application that allows having links without time and quantity restrictions,
      * and in the future, it will provide access to additional statistics data.
      */
-    private static final Logger LOGGER = LogManager.getLogger(ExceptionHandlers.class);
     private static final Role PREMIUM_ROLE = new Role(2L, "ROLE_PREMIUM", null);
+    private static final Logger LOGGER = LogManager.getLogger(ExceptionHandlers.class);
     @Autowired
     public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, Convertors convertors) {
         this.passwordEncoder = passwordEncoder;

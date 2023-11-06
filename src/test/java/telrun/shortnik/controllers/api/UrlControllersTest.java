@@ -107,6 +107,7 @@ class UrlControllersTest {
     void mustAllowDeleteUrl_adminAuth() throws IOException {
         var urlRequest = new UrlRequest(testOriginalUrl, "some description", null);
         String urlRequestJson = jsonCreator.createJson(urlRequest);
+
         Connection.Response userIsLoggingApp = connector.postRequestHtml("user", "user", "login");
         Connection.Response mustAddUrl = connector.postRequestJson(urlRequestJson, "url", userIsLoggingApp.cookies());
         shortUrlForTests = mustAddUrl.body();

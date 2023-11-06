@@ -57,8 +57,8 @@ public class UserControllers {
      * @return List of UserResponse objects on the specified page.
      */
     @GetMapping("/get-page")
-    public List<UserResponse> getUsersOnPage(@RequestParam(name = "page", defaultValue = "0") int page) {
-        PageRequest pageRequest = PageRequest.of(page, 30);
+    public List<UserResponse> getUsersOnPage(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "30") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
         return userService.getAllUsersOnPage(pageRequest);
     }
 
