@@ -1,5 +1,6 @@
 package telrun.shortnik.generator;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -10,10 +11,13 @@ import java.util.Random;
  */
 @Component
 public class Generator {
-    private static final String ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    private static final int LINK_SIZE = 6;
-    private final Random random = new Random();
+    @Value("${allowed_chars}")
+    private String ALLOWED_CHARS;
+    @Value("${link_size}")
+    private int LINK_SIZE;
+
     public String generate() {
+        Random random = new Random();
         StringBuilder shortLink = new StringBuilder();
         char temp;
         for (int i = 0; i < LINK_SIZE; i++) {

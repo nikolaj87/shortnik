@@ -2,6 +2,7 @@ package telrun.shortnik.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,8 @@ public class TemplateControllers {
 
     private final UserService userService;
     private final UrlService urlService;
-    private static final String SERVER_URL = "http://localhost:8080/";
+    @Value("${server_url}")
+    private String SERVER_URL;
 
     @Autowired
     public TemplateControllers(UserService userService, UrlService urlService) {

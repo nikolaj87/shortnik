@@ -71,6 +71,8 @@ Mandatory Requirements
     что планирую свыше:
 
     -диаграмка https://dbdiagram.io/d/64e5c36c02bd1c4a5e40e378
+    -презенташка
+    https://docs.google.com/presentation/d/1vwhYLc-axVSa_lKA-gyquNR0z6NtqHdHrnHEY2hKBgE/edit#slide=id.g214043d2dcc_0_17
 
     -шаблоны \ регистрации \ входа \ получения ссылки
     -кеширование частого запроса (hazelcast)
@@ -85,6 +87,3 @@ Mandatory Requirements
     -spring security. USER ADMIN PREMIUM
     -условная платная роль
     -вопросы многопоточности на примере Generator.class
-
-хардкод в пагинации убрать
-
